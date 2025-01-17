@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+#main {
+  width: 40rem;
+  margin: 0 auto;
+  user-select: none;
+
+  > .title {
+    padding: 3.125rem 0 3.1875rem;
+    border-bottom: 0.125rem solid rgb(51, 51, 51);
+    font-weight: 500;
+    font-size: 1.75rem;
+    letter-spacing: -0.0625rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  > .notice-container {
+    color: rgb(102, 102, 102);
+    line-height: 1.375rem;
+    display: inline-flex;
+    width: 100%;
+    padding: 0.625rem 0 0.625rem 1.25rem;
+
+    > .left {
+      width: 8.6875rem;
+      padding-top: 0.75rem;
+
+      > .label {
+        font-weight: 500;
+        color: rgb(51, 51, 51);
+        line-height: 1.25rem;
+      }
+    }
+
+    > .right {
+      flex: 1 1 0;
+
+      > .text {
+        padding-top: 0.625rem;
+
+        > .highlight {
+          display: block;
+          padding: 1.1875rem 0 0.75rem;
+          font-weight: normal;
+          color: rgb(95, 0, 128);
+        }
+      }
+    }
+  }
+}
+
+#leave-form {
+  > .password-box {
+    display: inline-flex;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+
+    > .left {
+      width: 8.6875rem;
+      padding-top: 0.75rem;
+
+      > .text {
+        font-weight: 500;
+        color: rgb(51, 51, 51);
+        line-height: 1.25rem;
+      }
+    }
+
+    > .right {
+      flex: 1 1 0;
+
+      > .password-label {
+        width: 20.75rem;
+        padding: 0;
+        position: relative;
+        height: 3rem;
+
+        > .password {
+          width: 90%;
+          height: 2.875rem;
+          padding: 0 0.6875rem 0.0625rem 0.9375rem;
+          border-radius: 0.25rem;
+          border: 0.0625rem solid rgb(221, 221, 221);
+          font-weight: 400;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          color: rgb(51, 51, 51);
+          outline: none;
+          box-sizing: border-box;
+        }
+      }
+    }
+
+    > .empty-box {
+      width: 7.5rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  > .button-container {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 2.5rem 0 3.75rem;
+
+    > button,
+    > a > button{
+      width: 7.5rem;
+      height: 2.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin: 0 0.25rem;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+

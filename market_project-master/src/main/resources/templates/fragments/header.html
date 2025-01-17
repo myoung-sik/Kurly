@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+</head>
+<body>
+<div th:fragment="headerFragment" class="top">
+    <div class="top1">
+        <div class="top-right">
+            <a class="a -purple" th:if="${member == null || member.getDeletedAt() != null}" th:href="@{/member/signup}">회원가입</a>
+            <div class="bar" th:if="${member == null || member.getDeletedAt() != null }"></div>
+            <a class="a" th:if="${member == null || member.getDeletedAt() != null }" th:href="@{/member/login}">로그인</a>
+            <div class="d" th:if="${member != null && member.getDeletedAt() == null}">
+                <a class="a" th:text="|${member.getUserName()} 님|">
+                </a>
+                <a class="a">
+                    <span class="toggle"></span>
+                </a>
+                <div class="menu member">
+                    <a th:href="@{/admin/}" th:if="${member.isAdmin()}" href="#" class="item1">관리자페이지</a>
+                    <a th:href="@{/mypage/pay-record}" class="item1">주문내역</a>
+                    <a th:href="@{/mypage/info}" class="item1">개인정보 수정</a>
+                    <a th:href="@{/member/logout}" class="item1" id="logout">로그아웃</a>
+                </div>
+            </div>
+            <div class="bar"></div>
+            <div class="d">
+                <a class="a">
+                    고객센터
+                    <span class="toggle"></span>
+                </a>
+                <div class="menu">
+                    <a class="item1">공지사항</a>
+                    <a class="item1">자주하는 질문</a>
+                    <a class="item1">1:1 문의</a>
+                    <a class="item1">대량주문 문의</a>
+                </div>
+            </div>
+        </div>
+        <div class="login-container">
+            <div class="logo-wrapper">
+                <a th:href="@{/main}"><img class="logo"
+                                           src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iNTAwLjAwMDAwMHB0IiBoZWlnaHQ9IjUwMC4wMDAwMDBwdCIgdmlld0JveD0iMCAwIDUwMC4wMDAwMDAgNTAwLjAwMDAwMCIKIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgoKPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsNTAwLjAwMDAwMCkgc2NhbGUoMC4xMDAwMDAsLTAuMTAwMDAwKSIKZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIj4KPHBhdGggZD0iTTM4MjQgMzM4NCBjLTExMyAtNTkgLTIzMCAtMjE0IC0zMTcgLTQxOSAtODAgLTE5MCAtMTA5IC0yNjYgLTE0NwotMzg0IC0yOSAtODkgLTU1IC0xNDggLTg2IC0xOTcgLTI2IC0zOCAtNTIgLTgxIC02MCAtOTUgLTI0IC00NyAtMTEyIC0xMzUKLTE1MyAtMTU0IC0zMyAtMTQgLTQzIC0xNSAtNTYgLTUgLTQzIDM2IDExIDIzMCAxMjMgNDQwIDM3IDY5IDY5IDEzMCA3MSAxMzUKMiA2IDExIDE4IDIwIDI5IDE1IDE4IDEzIDE4IC02NiAxNSBsLTgyIC00IC00OSAtNDggYy01MiAtNTEgLTY3IC01NSAtMTE5Ci0zMCAtNDIgMjAgLTczIDY2IC03MyAxMTAgMCAyNyAtNSAzMyAtMzYgNDMgLTQ0IDE1IC03OCAwIC0xMDAgLTQyIC0yNCAtNDYKLTE4IC05MyAxOCAtMTMzIGwzMSAtMzcgLTMyIC02NiBjLTE0MiAtMjkxIC0yODYgLTQ2MiAtMzQ3IC00MTEgLTQ5IDQwIDU1CjM2MSAxNzYgNTQ1IGwzOSA1OSAtNjYgMyBjLTc5IDQgLTExNiAtMTAgLTE0NSAtNTIgLTEyIC0xNyAtMjMgLTMzIC0yNSAtMzUKLTIgLTIgLTE4IDEzIC0zNSAzMyAtNTUgNjQgLTE0NyA4MiAtMjY0IDUxIC02OSAtMTggLTg1IC0yOCAtMTY2IC0xMDQgLTExMQotMTA0IC0xOTkgLTMxNSAtMTk3IC00NzUgMSAtOTEgMTcgLTEzNSA2MCAtMTY0IDk1IC02NSAyNTcgMzcgMzkyIDI0NiAzMyA1MQo2MSA5MSA2NCA4OCAyIC0yIC0xIC0yMiAtNyAtNDQgLTE4IC03MCAtMTcgLTIyMiAzIC0yNTkgNDYgLTg2IDEzNCAtNzMgMjQ4CjM0IDgyIDc3IDIxNSAyNzIgMjkzIDQyNiBsNTEgMTAyIDU1IDYgYzMwIDMgNjcgMTEgODMgMTkgMzcgMTggNDMgOCAxNyAtMjgKLTQ4IC02NCAtMTE4IC0yOTkgLTEyNyAtNDIyIC03IC0xMDIgOSAtMTQ5IDU5IC0xODAgNTggLTM2IDExOSAtMTIgMjMxIDkxIDQ5CjQ1IDg4IDkyIDExMiAxMzUgMjAgMzYgMzkgNjQgNDEgNjEgMiAtMiAwIC0zNyAtNiAtNzggLTE0IC05NSAtNSAtMTU0IDI5Ci0xOTEgMjMgLTI2IDMzIC0zMCA3OSAtMzAgMzQgMSA3MSA5IDEwNSAyNSA3MCAzMiAyMDYgMTU0IDIwNyAxODQgMCA0IDkgMTkKMjAgMzMgbDE5IDI1IDAgLTkzIGMtMSAtMTAxIDkgLTEyNyA1NyAtMTU4IDM0IC0yMyAxMDIgLTIxIDE1NSA0IDQ3IDIyIDE2MgoxMjQgMjA1IDE4MiBsMjYgMzUgLTcgLTM1IGMtMjIgLTExNSAtMTUwIC0zOTYgLTIwOCAtNDU5IC03MyAtNzcgLTE3OCAtOTIKLTIyNCAtMzIgLTE3IDIyIC0xNiA5MiAyIDExOCAxNCAyMSAxNCAyMyAtOSAzOCAtMTUgMTAgLTQwIDE1IC02MiAxMyAtNzAgLTYKLTEwNCAtODkgLTY4IC0xNjQgMzMgLTcwIDE2NyAtMTA2IDI5MiAtODAgMjE3IDQ1IDMyMiAxNzAgNDM2IDUxOCAyNCA3MyA2MAoxNzYgODEgMjI4IDIwIDUyIDQ1IDEyMCA1NiAxNTAgMjQgNjggNTIgMTIwIDk1IDE4MyBsMzQgNDcgLTcwIDAgYy0zOSAwIC04NgotNiAtMTA1IC0xNCAtMzMgLTE0IC05NSAtODcgLTk1IC0xMTEgMCAtMjQgLTY0IC0xNjEgLTExMiAtMjM4IC0yNiAtNDMgLTQ4Ci04MiAtNDggLTg2IDAgLTE0IC0xNDMgLTE2MiAtMTcxIC0xNzYgLTczIC0zOCAtOTYgLTEyIC04NiA5OSAxMiAxMjEgMTA5IDM0NQoxOTYgNDU0IDI4IDM0IDUxIDY1IDUxIDY4IDAgMTUgLTEyOCAtNSAtMTY4IC0yNSAtMzcgLTE5IC0xMzIgLTEyMiAtMTMyIC0xNDQKMCAtMjMgLTkwIC0xOTMgLTE0MyAtMjcxIC05MSAtMTMyIC0yMDcgLTIxMyAtMjUzIC0xNzUgLTMxIDI1IC00IDE5NyA1OCAzNzUKMjAgNTggMzYgODEgODUgMTMwIDMzIDMyIDcwIDczIDgyIDg5IDEzIDE3IDM3IDQ2IDU0IDY1IDE3NSAxOTMgMzA3IDQyMyAzMDcKNTMzIDAgNDkgLTMgNTggLTMxIDgxIC00MSAzNSAtOTkgMzUgLTE2NSAweiBtMTM5IC03MyBjLTIgLTQ3IC02NSAtMTkxIC0xMDkKLTI0OCAtMTMgLTE3IC0yNCAtMzUgLTI0IC0zOSAwIC04IC04MCAtMTI2IC05MCAtMTM0IC00IC0zIC0zMiAtMzkgLTYzIC04MAotODEgLTEwOCAtMTE2IC0xNDggLTExNyAtMTMwIDAgOCA2IDI3IDE0IDQyIDggMTQgMTkgNDMgMjYgNjUgNyAyMSAyNiA2NiA0MQoxMDEgMTYgMzQgMjkgNjggMjkgNzUgMCAyMCA4MyAxODYgMTQwIDI4MiA1OCA5NiA4MiAxMTcgMTI1IDExMyAyOSAtMyAzMCAtNQoyOCAtNDd6IG0tMTY3NSAtNjQ3IGMzNCAtMjIgMzcgLTQyIDEzIC03NSAtMTIgLTE2IC0yNiAtNDAgLTMxIC01NCAtMTcgLTQ0Ci0xNzggLTI3OSAtMjE3IC0zMTcgLTkyIC04NyAtMTU5IC0xMTEgLTE4MSAtNjMgLTE3IDM3IC0xNSA3MyA5IDE0NiA0MyAxMzEKMTExIDIzNyAyMDIgMzE3IDgxIDcwIDE0NSA4NSAyMDUgNDZ6Ii8+CjxwYXRoIGQ9Ik0xMjI1IDMzMzMgYy0xMTIgLTIzIC0zMDYgLTExMiAtMzgxIC0xNzUgLTIwNSAtMTcwIC0zNDIgLTM4NiAtNDA4Ci02NDQgLTQ5IC0xOTMgLTIwIC0zNTkgODYgLTQ4MCA2NCAtNzMgMTg4IC0xMDkgMzYzIC0xMDggMTg2IDIgMzQxIDQ2IDQ5OQoxNDIgMzcgMjMgNzEgNDIgNzUgNDIgNCAwIDQ2IDM5IDkzIDg4IDY3IDY4IDkwIDEwMCAxMDcgMTQ1IDI1IDY5IDI2IDg1IDUKMTE1IC0xNiAyMyAtMTYgMjMgLTQyIC0yOSAtMzUgLTY4IC0xMzYgLTE3NiAtMjMxIC0yNDggLTgzIC02MyAtMjQ3IC0xNDQKLTMyNiAtMTYxIC02NSAtMTUgLTE4MCAtMTUgLTIzMSAtMSAtMTU3IDQyIC0yMzEgMjE2IC0xOTMgNDUxIDM2IDIyOSAxNTEgNDM5CjMyNCA1OTYgNzEgNjMgMTk1IDE1MiAxOTUgMTM5IDAgLTMgMTAgMSAyMyA5IDM1IDIzIDE3NSA1NiAyMzkgNTYgMTA0IDAgMTU4Ci0zOSAxNTggLTExMyAwIC01MCAtMjEgLTg4IC02NyAtMTI0IC00NiAtMzYgLTkzIC01MyAtMTQ0IC01MyAtMjggMCAtNDEgLTUKLTQ5IC0xOSAtMjggLTUzIDkgLTkxIDg5IC05MSAxMzQgMCAyNDUgNzcgMjg3IDIwMCAyMyA2NyAxMCAxMTUgLTUwIDE3NiAtNjkKNzEgLTE0NCA5NCAtMjk1IDkzIC01OCAtMSAtMTE1IC0zIC0xMjYgLTZ6Ii8+CjwvZz4KPC9zdmc+Cg=="
+                                           alt="마켓컬리 로고"></a>
+                <a th:href="@{/main}" class="logo_text">마켓칼리</a>
+                <form id="search-form" action="/collection-groups/search" method="get">
+                    <label class="search-box">
+                        <input autocomplete="false" id="gnb_search" placeholder="검색어를 입력해주세요" required="" class="keyword" name="keyword">
+                        <button id="submit" aria-label="submit" class="submit"></button>
+                    </label>
+                </form>
+            </div>
+        </div>
+
+        <div class="icon-container">
+            <div class="icon1">
+                <div class="submenu">
+                    <p th:if="${member == null}">
+                        <strong class="highlight">배송지를 등록</strong> 하고 <br>
+                        <span class="text">구매 가능한 상품을 확인하세요!</span>
+                    </p>
+                    <p th:if="${member != null}" class="re">
+                        <span class="text" th:text="${member.getAddress()}"></span> <br>
+                        <strong class="highlight">샛별배송</strong>
+                    </p>
+                    <div class="button-container">
+                        <button th:if="${member == null}" class="signup --obj-button --color-light-primary">
+                            <a th:href="@{/member/login}" class="_text">로그인</a>
+                        </button>
+                        <button th:if="${member == null}" class="address --obj-button --color-primary">
+                            <span class="_text">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAQAAAAiAqDbAAAAAXNSR0IArs4c6QAAAYdJREFUeNrt1j9Lw0AYBvDGqlBF7VAQRUFBoeDmIoL4b9Cp4CJO1g9QrHQVCnbo7mdwLNJvUJy6KSIFxaloQQpSaxqT3D1FHodWrTYZctUtT7Yc97sX7u5NAgE/fvw4h5o+J2IiYceNtecRaj2DuaC9DxP8fkShPtMTWQ7jthP8go+U662NQgdBlMxFDlKj1oiIZIu1s0osNZRAUKR+TjcncAOCYksBNXdAUB53j1RCMEDUL/q911kFcX/S5zRqrIKg2PaIvo2DoLHptqR8AGXeI2otgeDLmNu4nQFhetwsEQNBDriiByDoETXWQfBpyHXRlAKqz4OgseCKFkBce76eaILyzLmWRgQERcLzObWzIGgtO+59EUSzEvKMVofRBKHXprvINAiKQ6W731hpt49kLvgJmpO4ar+NKbaU1sEC8S7P7Yw4xV1nrzI2FNnXWVz+anymHZfRVo9VZqnJqEzLIuryUeatvdaFqE31yLp02zYro//AitQffxLLYWuXg/6vgR8/HfkA7NFWMofTE4wAAAAASUVORK5CYII=" class="_icon">
+                                주소 검색</span>
+                        </button>
+                        <a th:href="@{/mypage/info}">
+                            <button th:if="${member != null}" class="readdress --obj-button --color-light-primary">배송지 변경</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <button class="icon2" aria-label="찜하기" type="button" id="pick-button"></button>
+            <a th:href="@{/cart/in}" class="">
+                <button class="icon3" id="cart-button">
+                    <span class="cart-item"></span>
+                </button>
+            </a>
+        </div>
+    </div>
+    <nav class="header" id="nav">
+        <div class="header-wrapper">
+            <div class="category">
+                <span class="icon"></span>
+                <span class="">카테고리</span>
+                <div class="category-container">
+                    <div class="category-menu">
+                        <ul class="menu">
+                            <li class="item1">
+                                <div class="img-cover">
+                                    <img src="https://collection-image.kurly.com/site-category-groups/191/oBzWCoHWrTmTj0haIpcfv4w3sejpfz2LzPfwzS39.png" alt="홀리데이 마켓" class="image">
+                                    <span class="category-name"></span>
+                                </div>
+                                <ul class="submenu">
+                                    <li class="subitem">
+                                        <div class="text-box">
+                                            <span class="text"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <ul>
+                <li class="item1">
+                    <a th:href="@{/collection-groups/market-newproduct}" class="text">신상품</a>
+                </li>
+                <li class="item1">
+                    <a th:href="@{/collection-groups/market-best}" class="text">베스트</a>
+                </li>
+                <li class="item1">
+                    <a th:href="@{/collection-groups/market-sales}" class="text">알뜰쇼핑</a>
+                </li>
+                <li class="item1">
+                    <a th:href="@{/market-benefit}" class="text benefit">특가/혜택</a>
+                </li>
+            </ul>
+            <div>
+                <div class="notice">
+                    <span class="star">샛별·하루</span> 배송안내
+                </div>
+            </div>
+            <div class="fixed-search">
+                <form action="/collection-groups/search" method="get">
+                    <label>
+                        <input autocomplete="false" id="fixed_search" placeholder="검색어를 입력해주세요" required="" class="fixed-input" name="keyword" value="">
+                        <button aria-label="submit" class="search-button"></button>
+                    </label>
+                </form>
+            </div>
+            <div class="icon-container">
+                <div class="icon1">
+                    <div class="submenu">
+                        <p th:if="${member == null}">
+                            <strong class="highlight">배송지를 등록</strong> 하고 <br>
+                            <span class="text">구매 가능한 상품을 확인하세요!</span>
+                        </p>
+                        <p th:if="${member != null}" class="re">
+                            <span class="text" th:text="${member.getAddress()}"></span> <br>
+                            <strong class="highlight">샛별배송</strong>
+                        </p>
+                        <div class="button-container">
+                            <button th:if="${member == null}" class="signup --obj-button --color-light-primary">
+                                <a th:href="@{/member/login}" class="_text">로그인</a>
+                            </button>
+                            <button th:if="${member == null}" class="address --obj-button --color-primary">
+                            <span class="_text">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAoCAQAAAAiAqDbAAAAAXNSR0IArs4c6QAAAYdJREFUeNrt1j9Lw0AYBvDGqlBF7VAQRUFBoeDmIoL4b9Cp4CJO1g9QrHQVCnbo7mdwLNJvUJy6KSIFxaloQQpSaxqT3D1FHodWrTYZctUtT7Yc97sX7u5NAgE/fvw4h5o+J2IiYceNtecRaj2DuaC9DxP8fkShPtMTWQ7jthP8go+U662NQgdBlMxFDlKj1oiIZIu1s0osNZRAUKR+TjcncAOCYksBNXdAUB53j1RCMEDUL/q911kFcX/S5zRqrIKg2PaIvo2DoLHptqR8AGXeI2otgeDLmNu4nQFhetwsEQNBDriiByDoETXWQfBpyHXRlAKqz4OgseCKFkBce76eaILyzLmWRgQERcLzObWzIGgtO+59EUSzEvKMVofRBKHXprvINAiKQ6W731hpt49kLvgJmpO4ar+NKbaU1sEC8S7P7Yw4xV1nrzI2FNnXWVz+anymHZfRVo9VZqnJqEzLIuryUeatvdaFqE31yLp02zYro//AitQffxLLYWuXg/6vgR8/HfkA7NFWMofTE4wAAAAASUVORK5CYII=" class="_icon">
+                                주소 검색</span>
+                            </button>
+                            <a th:href="@{/mypage/info}">
+                                <button th:if="${member != null}" class="readdress --obj-button --color-light-primary">배송지 변경</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <button class="icon2" aria-label="찜하기" type="button" id="pick-button2"></button>
+                <a th:href="@{/cart/in}" class="">
+                    <button class="icon3">
+                        <span class="cart-item"></span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

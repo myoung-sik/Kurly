@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link type="text/css" rel="stylesheet" th:href="@{'/cart/assets/styles/cart.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/cart/assets/scripts/cart.js'}"></script>
+
+    <title>칼리 - 마켓칼리</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div id="main">
+            <div class="cart-main">
+                <h2>
+                    <span class="cart-font">장바구니</span>
+                    <div></div>
+                </h2>
+                <div class="cart-container">
+                    <div class="cart-list-container">
+                        <div class="cart-check-box">
+                            <div class="cart-check">
+                                <!-- 아이템이 없을 경우 -->
+                                <label class="text-container" th:if="${items == null or #lists.isEmpty(items)}">
+                                    <input class="checkbox" name="selectAll" type="checkbox" disabled>
+                                    <div class="input-cover disabled"></div>
+                                    <p class="_text disabled">전체 선택</p>
+                                </label>
+                                <!-- 아이템이 있을 경우 -->
+                                <label class="text-container --label" th:if="${items != null and !#lists.isEmpty(items)}">
+                                    <input class="checkbox" name="check" value="selectAll" onclick="selectAll(this)"
+                                           type="checkbox">
+                                    <div class="input-all-cover --div"></div>
+                                    <p class="_text">전체 선택</p>
+                                </label>
+                                <button class="delete-button" name="deleteAll" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems or member == null} ? 'no-deleteButton' : ''" disabled>
+                                    <p class="_text _no-text">선택 삭제</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="list" th:classappend="${items == null or #lists.isEmpty(items)} ? 'no-items' : ''">
+                            <div id="no_list" th:if="${items == null or #lists.isEmpty(items) or member == null}">
+                                <i class="no-items-icon" style="width: 64px; height: 64px;">
+                                    <svg width="56" height="56" viewBox="0 0 21 22" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" class="img"
+                                              d="M10.5 21.5C16.299 21.5 21 16.799 21 11C21 5.20101 16.299 0.5 10.5 0.5C4.70101 0.5 0 5.20101 0 11C0 16.799 4.70101 21.5 10.5 21.5ZM11.4199 5.2002H9.41992V12.8002H11.4199V5.2002ZM11.4199 16.7998H9.41992V14.7998H11.4199V16.7998Z"
+                                              fill="#cbd1d7">
+                                        </path>
+                                    </svg>
+                                </i>
+                                <p class="_text">장바구니에 담긴 상품이 없습니다.</p>
+                            </div>
+                            <span id="kurlyDelivery" class="kurlyDelivery"></span>
+                            <div class="list-delivery"  th:if="${items != null and !#lists.isEmpty(items)}">
+                                <div class="Delivery">
+                                    <label class="delivery-label --label">
+                                        <input name="check" value="selectAll" onclick="selectAll(this)"
+                                               class="Delivery-checkbox" type="checkbox">
+                                        <div class="input-cover --div"></div>
+                                        <p class="_text">샛별배송</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="item-container" id="item-container" th:if="${items != null and !#lists.isEmpty(items)}">
+                                <div class="item" th:each="item:${items}">
+                                    <input class="index" name="index" th:value="${item.getIndex()}" style="display: none">
+                                    <input class="id" name="itemId" th:value="${item.getItemId()}" style="display: none">
+                                    <div class="status-cover" th:if="${item.getStatus() == '냉장 (종이포장)'}">
+                                        <i class="status-icon" style="width: 20px; height: 20px">
+                                            <svg width="15" height="15" viewBox="0 0 12 18" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M6.00039 17.25C9.3141 17.25 12 14.6599 12 11.4653C12 9.33561 10.0001 5.76409 6.00039 0.75C1.99987 5.76333 0 9.33561 0 11.4653C0 14.6599 2.68668 17.25 6.00039 17.25Z"
+                                                      fill="#67bfa4"></path>
+                                            </svg>
+                                        </i>
+                                        <p class="_text">냉장식품</p>
+                                    </div>
+                                    <div class="status-cover" th:if="${item.getStatus() == '냉동 (종이포장)'}">
+                                        <i class="status-icon" style="width: 20px; height: 20px">
+                                            <svg width="16.666666666" height="16.666666666" viewBox="0 0 20 19"
+                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.0002 0.464395C15.2927 0.633284 15.4083 0.989479 15.2841 1.29345L15.2442 1.37508L14.0491 3.44507L16.1376 2.88546C16.4606 2.79891 16.7922 2.96577 16.9209 3.26381L16.9531 3.35734C17.0404 3.68077 16.8728 4.012 16.5755 4.14111L16.482 4.17333L13.1064 5.07782L11.1553 8.45724L15.0572 8.45808L17.5288 5.98682C17.789 5.72646 18.2112 5.72591 18.4711 5.98683C18.7082 6.22328 18.7293 6.59371 18.5364 6.85493L18.4718 6.9295L16.9424 8.45853L19.3343 8.45794C19.7019 8.4577 20.0005 8.75639 20.0003 9.12474C20.0004 9.46245 19.7491 9.74127 19.4238 9.78547L19.3331 9.79157L16.9437 9.79151L18.4711 11.32C18.7082 11.5565 18.7294 11.9269 18.5365 12.1881L18.4715 12.2635C18.2347 12.4994 17.8643 12.5205 17.6035 12.3269L17.5285 12.263L15.058 9.79183L11.1553 9.79055L13.1061 13.1708L16.4822 14.0752C16.8377 14.1706 17.0488 14.5357 16.9541 14.8916C16.8666 15.2157 16.5573 15.4189 16.2337 15.382L16.1369 15.363L14.0479 14.8036L15.2442 16.8737C15.4281 17.1934 15.3192 17.6006 15.0003 17.785C14.7078 17.9538 14.3409 17.8764 14.1399 17.6167L14.0891 17.5411L12.8943 15.4719L12.3349 17.5589C12.2478 17.8822 11.9381 18.0863 11.615 18.0485L11.5177 18.0304C11.1952 17.9437 10.9912 17.634 11.0281 17.3104L11.0471 17.2136L11.9517 13.8387L10.0006 10.4572L8.04907 13.8374L8.95356 17.213C9.04845 17.5695 8.83778 17.9344 8.48201 18.0297C8.15857 18.1171 7.82734 17.9494 7.69824 17.6522L7.66602 17.5586L7.1064 15.4701L5.91085 17.5409C5.72685 17.8596 5.31886 17.9689 5.00016 17.7849C4.70764 17.616 4.59203 17.2598 4.7162 16.9559L4.75615 16.8742L5.95081 14.805L3.8632 15.3631C3.53977 15.4504 3.20854 15.2828 3.07943 14.9855L3.04721 14.892C2.9599 14.5685 3.12753 14.2373 3.4248 14.1082L3.51833 14.076L6.89393 13.1715L8.84548 9.79129L4.94314 9.79122L2.47149 12.2625C2.21134 12.5228 1.78918 12.5234 1.52926 12.2625C1.29216 12.026 1.27099 11.6556 1.46388 11.3944L1.52849 11.3198L3.05791 9.79077L0.666054 9.79136C0.298465 9.7916 -0.000206775 9.49291 1.07411e-07 9.12455C-3.97331e-05 8.78684 0.251259 8.50803 0.576485 8.46383L0.667251 8.45773L3.05668 8.45779L1.52919 6.92926C1.29209 6.69281 1.27092 6.32237 1.46381 6.06115L1.52887 5.98581C1.76564 5.74993 2.13608 5.72875 2.39685 5.92242L2.47187 5.98626L4.94236 8.45747L8.84546 8.45798L6.89424 5.07849L3.51809 4.17415C3.16262 4.07874 2.95156 3.71363 3.0462 3.35771C3.13375 3.03362 3.44304 2.83037 3.76658 2.86731L3.86341 2.88626L5.95244 3.44574L4.75614 1.37557C4.57223 1.05589 4.6811 0.648658 5 0.4643C5.29248 0.29548 5.6594 0.372859 5.86045 0.632631L5.91127 0.708161L7.10603 2.77744L7.66538 0.690392C7.75249 0.367073 8.06222 0.163049 8.38531 0.200761L8.48259 0.218946C8.80514 0.305608 9.00916 0.615339 8.97222 0.938881L8.95327 1.03571L8.0486 4.41064L10.0001 7.79135L11.9513 4.41192L11.0468 1.03632C10.9519 0.679778 11.1626 0.314892 11.5183 0.219563C11.8418 0.132249 12.173 0.299876 12.3021 0.597145L12.3343 0.690674L12.8944 2.77841L14.0895 0.708413C14.2735 0.389715 14.6815 0.280395 15.0002 0.464395Z"
+                                                      fill="#69a3e1"></path>
+                                            </svg>
+                                        </i>
+                                        <p class="_text">냉동식품</p>
+                                    </div>
+                                    <div class="status-cover" th:if="${item.getStatus() == '상온 (종이포장)'}">
+                                        <i class="status-icon" style="width: 20px; height: 20px">
+                                            <svg width="15.166666666" height="15.166666666" viewBox="0 0 19 19" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.09961 0C9.65189 0 10.0996 0.447715 10.0996 1V2.47273C10.0996 3.02501 9.65189 3.47273 9.09961 3.47273C8.54732 3.47273 8.09961 3.02501 8.09961 2.47273V1C8.09961 0.447715 8.54732 0 9.09961 0Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M13.518 9.09982C13.518 11.5399 11.5399 13.518 9.09982 13.518C6.65973 13.518 4.68164 11.5399 4.68164 9.09982C4.68164 6.65973 6.65973 4.68164 9.09982 4.68164C11.5399 4.68164 13.518 6.65973 13.518 9.09982Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M15.5339 4.07976C15.9244 3.68923 15.9244 3.05607 15.5339 2.66554C15.1433 2.27502 14.5102 2.27502 14.1196 2.66554L13.0783 3.70692C12.6877 4.09744 12.6877 4.73061 13.0783 5.12113C13.4688 5.51165 14.102 5.51165 14.4925 5.12113L15.5339 4.07976Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M18.1992 9.09963C18.1992 9.65191 17.7515 10.0996 17.1992 10.0996H15.7265C15.1742 10.0996 14.7265 9.65191 14.7265 9.09963C14.7265 8.54734 15.1742 8.09963 15.7265 8.09963H17.1992C17.7515 8.09963 18.1992 8.54734 18.1992 9.09963Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M14.1204 15.5348C14.511 15.9254 15.1441 15.9254 15.5347 15.5348C15.9252 15.1443 15.9252 14.5111 15.5347 14.1206L14.4933 13.0792C14.1028 12.6887 13.4696 12.6887 13.0791 13.0792C12.6885 13.4698 12.6885 14.1029 13.0791 14.4935L14.1204 15.5348Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M9.09861 18.2002C8.54633 18.2002 8.09861 17.7525 8.09861 17.2002V15.7275C8.09861 15.1752 8.54633 14.7275 9.09861 14.7275C9.6509 14.7275 10.0986 15.1752 10.0986 15.7275V17.2002C10.0986 17.7525 9.6509 18.2002 9.09861 18.2002Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M2.66536 14.1204C2.27484 14.511 2.27484 15.1441 2.66536 15.5347C3.05589 15.9252 3.68905 15.9252 4.07958 15.5347L5.12095 14.4933C5.51148 14.1028 5.51148 13.4696 5.12095 13.0791C4.73043 12.6885 4.09726 12.6885 3.70674 13.0791L2.66536 14.1204Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M0 9.10057C0 8.54828 0.447715 8.10057 1 8.10057H2.47273C3.02501 8.10057 3.47273 8.54828 3.47273 9.10057C3.47273 9.65285 3.02501 10.1006 2.47273 10.1006H1C0.447715 10.1006 0 9.65285 0 9.10057Z"
+                                                      fill="#fca182"></path>
+                                                <path d="M4.08073 2.66536C3.69021 2.27484 3.05704 2.27484 2.66652 2.66536C2.27599 3.05589 2.27599 3.68905 2.66652 4.07958L3.70789 5.12095C4.09842 5.51148 4.73158 5.51148 5.12211 5.12095C5.51263 4.73043 5.51263 4.09726 5.12211 3.70674L4.08073 2.66536Z"
+                                                      fill="#fca182"></path>
+                                            </svg>
+                                        </i>
+                                        <p class="_text">상온상품</p>
+                                    </div>
+                                    <div class="--item">
+                                        <div class="item-check-box">
+                                            <div class="checkbox-cover">
+                                                <label class="checkbox-label --label">
+                                                    <input name="check" class="checkbox" type="checkbox" th:checked="${item.isChecked == 1}">
+                                                    <div class="label-cover --div"></div>
+                                                    <p class="checkbox_text"></p>
+                                                </label>
+                                            </div>
+                                            <button class="cancel-button" name="delete" type="button">
+                                                <i class="cancel-icon" style="width: 20px; height: 20px">
+                                                    <svg width="12.966666666" height="12.966666666" viewBox="0 0 16 16"
+                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1.41421 0.22168L0 1.63589L6.36396 7.99985L0 14.3638L1.41421 15.778L7.77817 9.41407L14.1421 15.778L15.5563 14.3638L9.19239 7.99985L15.5563 1.63589L14.1421 0.22168L7.77817 6.58564L1.41421 0.22168Z"
+                                                              fill="#a7b2bc"></path>
+                                                    </svg>
+                                                </i>
+                                            </button>
+                                        </div>
+                                        <div class="item-detail">
+                                            <a href="#">
+                                                <div class="item-name">
+                                                    <p class="_text item_name"
+                                                       th:name="itemName"
+                                                       th:text="${item.getItemName()}"></p>
+                                                </div>
+                                            </a>
+                                            <span class="--status" th:if="${item.getStatus() == '냉장 (종이포장)'}">
+                                               <p class="status-cover">
+                                                   <i class="status-icon" style="width: 16px; height: 16px">
+                                                       <svg width="12" height="12" viewBox="0 0 12 18" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                           <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                 d="M6.00039 17.25C9.3141 17.25 12 14.6599 12 11.4653C12 9.33561 10.0001 5.76409 6.00039 0.75C1.99987 5.76333 0 9.33561 0 11.4653C0 14.6599 2.68668 17.25 6.00039 17.25Z"
+                                                                 fill="#67bfa4" ></path>
+                                                       </svg>
+                                                   </i>
+                                                   <span class="status-details">냉장</span>
+                                               </p>
+                                           </span>
+                                            <span class="--status" th:if="${item.getStatus() == '냉동 (종이포장)'}">
+                                               <p class="status-cover ice">
+                                                   <i class="status-icon" style="width: 16px; height: 16px">
+                                                      <svg width="13.3333333328" height="13.3333333328"
+                                                           viewBox="0 0 20 19" fill="none"
+                                                           xmlns="http://www.w3.org/2000/svg">
+                                                          <path d="M15.0002 0.464395C15.2927 0.633284 15.4083 0.989479 15.2841 1.29345L15.2442 1.37508L14.0491 3.44507L16.1376 2.88546C16.4606 2.79891 16.7922 2.96577 16.9209 3.26381L16.9531 3.35734C17.0404 3.68077 16.8728 4.012 16.5755 4.14111L16.482 4.17333L13.1064 5.07782L11.1553 8.45724L15.0572 8.45808L17.5288 5.98682C17.789 5.72646 18.2112 5.72591 18.4711 5.98683C18.7082 6.22328 18.7293 6.59371 18.5364 6.85493L18.4718 6.9295L16.9424 8.45853L19.3343 8.45794C19.7019 8.4577 20.0005 8.75639 20.0003 9.12474C20.0004 9.46245 19.7491 9.74127 19.4238 9.78547L19.3331 9.79157L16.9437 9.79151L18.4711 11.32C18.7082 11.5565 18.7294 11.9269 18.5365 12.1881L18.4715 12.2635C18.2347 12.4994 17.8643 12.5205 17.6035 12.3269L17.5285 12.263L15.058 9.79183L11.1553 9.79055L13.1061 13.1708L16.4822 14.0752C16.8377 14.1706 17.0488 14.5357 16.9541 14.8916C16.8666 15.2157 16.5573 15.4189 16.2337 15.382L16.1369 15.363L14.0479 14.8036L15.2442 16.8737C15.4281 17.1934 15.3192 17.6006 15.0003 17.785C14.7078 17.9538 14.3409 17.8764 14.1399 17.6167L14.0891 17.5411L12.8943 15.4719L12.3349 17.5589C12.2478 17.8822 11.9381 18.0863 11.615 18.0485L11.5177 18.0304C11.1952 17.9437 10.9912 17.634 11.0281 17.3104L11.0471 17.2136L11.9517 13.8387L10.0006 10.4572L8.04907 13.8374L8.95356 17.213C9.04845 17.5695 8.83778 17.9344 8.48201 18.0297C8.15857 18.1171 7.82734 17.9494 7.69824 17.6522L7.66602 17.5586L7.1064 15.4701L5.91085 17.5409C5.72685 17.8596 5.31886 17.9689 5.00016 17.7849C4.70764 17.616 4.59203 17.2598 4.7162 16.9559L4.75615 16.8742L5.95081 14.805L3.8632 15.3631C3.53977 15.4504 3.20854 15.2828 3.07943 14.9855L3.04721 14.892C2.9599 14.5685 3.12753 14.2373 3.4248 14.1082L3.51833 14.076L6.89393 13.1715L8.84548 9.79129L4.94314 9.79122L2.47149 12.2625C2.21134 12.5228 1.78918 12.5234 1.52926 12.2625C1.29216 12.026 1.27099 11.6556 1.46388 11.3944L1.52849 11.3198L3.05791 9.79077L0.666054 9.79136C0.298465 9.7916 -0.000206775 9.49291 1.07411e-07 9.12455C-3.97331e-05 8.78684 0.251259 8.50803 0.576485 8.46383L0.667251 8.45773L3.05668 8.45779L1.52919 6.92926C1.29209 6.69281 1.27092 6.32237 1.46381 6.06115L1.52887 5.98581C1.76564 5.74993 2.13608 5.72875 2.39685 5.92242L2.47187 5.98626L4.94236 8.45747L8.84546 8.45798L6.89424 5.07849L3.51809 4.17415C3.16262 4.07874 2.95156 3.71363 3.0462 3.35771C3.13375 3.03362 3.44304 2.83037 3.76658 2.86731L3.86341 2.88626L5.95244 3.44574L4.75614 1.37557C4.57223 1.05589 4.6811 0.648658 5 0.4643C5.29248 0.29548 5.6594 0.372859 5.86045 0.632631L5.91127 0.708161L7.10603 2.77744L7.66538 0.690392C7.75249 0.367073 8.06222 0.163049 8.38531 0.200761L8.48259 0.218946C8.80514 0.305608 9.00916 0.615339 8.97222 0.938881L8.95327 1.03571L8.0486 4.41064L10.0001 7.79135L11.9513 4.41192L11.0468 1.03632C10.9519 0.679778 11.1626 0.314892 11.5183 0.219563C11.8418 0.132249 12.173 0.299876 12.3021 0.597145L12.3343 0.690674L12.8944 2.77841L14.0895 0.708413C14.2735 0.389715 14.6815 0.280395 15.0002 0.464395Z"
+                                                                fill="#69a3e1"></path>
+                                                      </svg>
+                                                   </i>
+                                                   <span class="status-details">냉동</span>
+                                               </p>
+                                           </span>
+                                            <span class="--status" th:if="${item.getStatus() == '상온 (종이포장)'}">
+                                                <p class="status-cover room">
+                                                <i class="_1k44z3a0" style="width: 16px; height: 16px;">
+                                                    <svg width="12.1333333328" height="12.1333333328"
+                                                         viewBox="0 0 19 19" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M9.09961 0C9.65189 0 10.0996 0.447715 10.0996 1V2.47273C10.0996 3.02501 9.65189 3.47273 9.09961 3.47273C8.54732 3.47273 8.09961 3.02501 8.09961 2.47273V1C8.09961 0.447715 8.54732 0 9.09961 0Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M13.518 9.09982C13.518 11.5399 11.5399 13.518 9.09982 13.518C6.65973 13.518 4.68164 11.5399 4.68164 9.09982C4.68164 6.65973 6.65973 4.68164 9.09982 4.68164C11.5399 4.68164 13.518 6.65973 13.518 9.09982Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M15.5339 4.07976C15.9244 3.68923 15.9244 3.05607 15.5339 2.66554C15.1433 2.27502 14.5102 2.27502 14.1196 2.66554L13.0783 3.70692C12.6877 4.09744 12.6877 4.73061 13.0783 5.12113C13.4688 5.51165 14.102 5.51165 14.4925 5.12113L15.5339 4.07976Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M18.1992 9.09963C18.1992 9.65191 17.7515 10.0996 17.1992 10.0996H15.7265C15.1742 10.0996 14.7265 9.65191 14.7265 9.09963C14.7265 8.54734 15.1742 8.09963 15.7265 8.09963H17.1992C17.7515 8.09963 18.1992 8.54734 18.1992 9.09963Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M14.1204 15.5348C14.511 15.9254 15.1441 15.9254 15.5347 15.5348C15.9252 15.1443 15.9252 14.5111 15.5347 14.1206L14.4933 13.0792C14.1028 12.6887 13.4696 12.6887 13.0791 13.0792C12.6885 13.4698 12.6885 14.1029 13.0791 14.4935L14.1204 15.5348Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M9.09861 18.2002C8.54633 18.2002 8.09861 17.7525 8.09861 17.2002V15.7275C8.09861 15.1752 8.54633 14.7275 9.09861 14.7275C9.6509 14.7275 10.0986 15.1752 10.0986 15.7275V17.2002C10.0986 17.7525 9.6509 18.2002 9.09861 18.2002Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M2.66536 14.1204C2.27484 14.511 2.27484 15.1441 2.66536 15.5347C3.05589 15.9252 3.68905 15.9252 4.07958 15.5347L5.12095 14.4933C5.51148 14.1028 5.51148 13.4696 5.12095 13.0791C4.73043 12.6885 4.09726 12.6885 3.70674 13.0791L2.66536 14.1204Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M0 9.10057C0 8.54828 0.447715 8.10057 1 8.10057H2.47273C3.02501 8.10057 3.47273 8.54828 3.47273 9.10057C3.47273 9.65285 3.02501 10.1006 2.47273 10.1006H1C0.447715 10.1006 0 9.65285 0 9.10057Z"
+                                                              fill="#fca187"></path>
+                                                        <path d="M4.08073 2.66536C3.69021 2.27484 3.05704 2.27484 2.66652 2.66536C2.27599 3.05589 2.27599 3.68905 2.66652 4.07958L3.70789 5.12095C4.09842 5.51148 4.73158 5.51148 5.12211 5.12095C5.51263 4.73043 5.51263 4.09726 5.12211 3.70674L4.08073 2.66536Z"
+                                                              fill="#fca187"></path>
+                                                    </svg>
+                                                </i>
+                                                <span class="_text">상온</span>
+                                                </p>
+                                            </span>
+                                            <div class="item-price-details">
+                                                <a href="#">
+                                                    <div class="item-image">
+                                                       <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; position: relative; max-width: 100%;">
+                                                           <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; max-width: 100%;">
+                                                               <img alt="" aria-hidden="true"
+                                                                    src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2764%27%20height=%2783%27/%3e"
+                                                                    style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0;">
+                                                           </span>
+                                                           <img th:alt="${item.getItemName()}" class="img"
+                                                                th:src="@{${item.getItemImage()}}"
+                                                                decoding="async" data-nimg="intrinsic"
+                                                                style="position: absolute; inset: 0; box-sizing: border-box; padding: 0; border: none; margin: auto; display: block; width: 0; height: 0; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover;">
+                                                       </span>
+                                                    </div>
+                                                </a>
+                                                <div class="item-price-cover">
+                                                    <div class="item-price">
+                                                        <p class="_text itemPrice"
+                                                           th:name="itemPrice"
+                                                           th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"
+                                                           th:data-price="${item.getItemPrice()}"></p>
+                                                    </div>
+                                                    <div class="quantity">
+                                                        <button class="minus" data-testid="stepper-button-Minus">
+                                                            <i class="minus-icon" style="width: 20px; height: 20px">
+                                                                <svg width="13.333333333999999"
+                                                                     height="13.333333333999999" viewBox="0 0 16 2"
+                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0H16V2H0V0Z" fill="#000"></path>
+                                                                </svg>
+                                                            </i>
+                                                        </button>
+                                                        <div class="num"
+                                                             th:name="itemQuantity"
+                                                             th:value="${item.getQuantity()}"
+                                                             th:text="${item.getQuantity()}"></div>
+                                                        <button class="plus"
+                                                                data-testid="stepper-button-Plus">
+                                                            <i class="plus-icon" style="width: 20px; height: 20px">
+                                                                <svg width="13.333333333999999"
+                                                                     height="13.333333333999999" viewBox="0 0 16 16"
+                                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M9 0H7V7H0V9H7V16H9V9H16V7H9V0Z"
+                                                                          fill="#000"></path>
+                                                                </svg>
+                                                            </i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items-price">
+                                    <p class="_text"></p>
+                                    <p class="total-price"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pay">
+                        <div class="pay-container">
+                            <div class="delivery-box" th:if="${member != null}">
+                                <div class="delivery">
+                                    <i class="delivery-icon">
+                                        <svg width="16.333333334" height="16.333333334" viewBox="0 0 20 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M9.79961 5.67969C8.70406 5.67969 7.64241 6.08948 6.85085 6.83581C6.0573 7.58403 5.59961 8.61182 5.59961 9.69686C5.59961 10.5049 5.85406 11.2896 6.32301 11.9513C6.79138 12.6122 7.45074 13.1188 8.21123 13.4158C8.97138 13.7127 9.80476 13.7896 10.6082 13.6389C11.4119 13.4882 12.1576 13.1149 12.7484 12.5579C13.3397 12.0003 13.7498 11.2826 13.9166 10.4919C14.0835 9.70069 13.9972 8.88128 13.6716 8.14003C13.3463 7.3996 12.7998 6.77635 12.1105 6.34208C11.4217 5.90815 10.6176 5.67969 9.79961 5.67969ZM8.22288 8.29098C8.63156 7.90566 9.19777 7.67969 9.79961 7.67969C10.2474 7.67969 10.6807 7.80514 11.0444 8.03426C11.4076 8.26306 11.6814 8.58224 11.8405 8.94445C11.9992 9.30583 12.0397 9.69972 11.9597 10.0791C11.8795 10.4589 11.68 10.8164 11.3763 11.1027C11.072 11.3897 10.6774 11.5911 10.2396 11.6732C9.80155 11.7553 9.34811 11.7127 8.93881 11.5529C8.52986 11.3932 8.18967 11.1263 7.9548 10.7949C7.72051 10.4643 7.59961 10.0823 7.59961 9.69686C7.59961 9.18149 7.8162 8.67443 8.22288 8.29098Z"
+                                                  fill="#222"></path>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M9.80107 0.400391L9.79893 0.400393C7.21934 0.403152 4.73528 1.37003 2.89437 3.10576C1.05148 4.84336 0.00298965 7.21222 0 9.69641V9.69762C0 13.6169 2.19721 16.9662 4.30133 19.2902C6.42351 21.6341 8.58594 23.0841 8.79128 23.2192C9.09223 23.4176 9.44426 23.5204 9.8 23.5204C10.1557 23.5204 10.5078 23.4176 10.8087 23.2192C11.0141 23.0841 13.1765 21.6341 15.2987 19.2902C17.4028 16.9662 19.6 13.6169 19.6 9.69762V9.69641C19.597 7.21222 18.5485 4.84336 16.7056 3.10576C14.8647 1.37003 12.3807 0.403152 9.80107 0.400391ZM4.2664 4.56094C5.72474 3.18592 7.7138 2.40289 9.8 2.40039C11.8862 2.40289 13.8753 3.18592 15.3336 4.56094C16.7902 5.93432 17.5977 7.78342 17.6 9.69882C17.5995 12.8788 15.797 15.76 13.8161 17.9478C12.0436 19.9055 10.2345 21.1906 9.8 21.4875C9.36553 21.1906 7.55638 19.9055 5.78393 17.9478C3.80291 15.7599 2.00023 12.8785 2 9.69823C2.00247 7.78304 2.80995 5.93418 4.2664 4.56094Z"
+                                                  fill="#222"></path>
+                                        </svg>
+                                    </i>
+                                    <p class="_text">배송지</p>
+                                </div>
+                                <span class="location-button">
+                                    <p class="_text">샛별배송</p>
+                                    <div class="location">
+                                        <div>
+                                            <p class="_text" th:text="${member.getAddress()}">
+                                            </p>
+                                        </div>
+                                        <button class="change-button" type="button">
+                                                <span class="change-text">변경</span>
+                                            </button>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="pay-box">
+                                <p class="_text">결제금액</p>
+                                <div class="pay">
+                                    <p class="_text">상품금액</p>
+                                    <p class="price"></p>
+                                </div>
+                                <div class="pay">
+                                    <p class="text">상품할인금액</p>
+                                    <p class="price color">0 원</p>
+                                </div>
+                                <div class="pay">
+                                    <p class="text">배송비</p>
+                                    <p class="price">0 원</p>
+                                </div>
+                                <div class="total-pay">
+                                    <p class="text">결제예정금액</p>
+                                    <p class="price"></p>
+                                </div>
+                                <p class="mileage">쿠폰/적립금은 주문서에서 사용 가능합니다.</p>
+                            </div>
+                            <button class="pay-button" type="submit" th:if="${member != null}" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems} ? 'disabled' : ''" disabled></button>
+                            <a class="login" href="/member/login" th:if="${member == null}">
+                                <button type="button">
+                                    로그인
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

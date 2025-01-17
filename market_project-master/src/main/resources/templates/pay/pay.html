@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pay</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link type="text/css" rel="stylesheet" th:href="@{/pay/assets/styles/pay.css}">
+    <script defer type="text/javascript" th:src="@{/pay/assets/scripts/pay.js}"></script>
+    <script defer type="text/javascript" th:src="@{/assets/scripts/common.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script th:if="${member == null || items == null || items.isEmpty()}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+</head>
+<body th:if="${member != null}">
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div id="main">
+            <div class="pay-order">
+                <h2 class="_text">주문서</h2>
+                <div class="purchase-order">
+                    <div class="order-item">
+                        <h3 class="_text">주문 상품</h3>
+                    </div>
+                    <div class="item-detail">
+                        <ul class="items">
+                            <p class="_text">샛별배송</p>
+                            <ul class="line">
+                                <div>
+                                    <div class="space"></div>
+                                    <li class="item" th:each="item : ${items}">
+                                        <label>
+                                            <input class="id" name="itemId" th:value="${item.getItemId()}" style="display: none">
+                                        </label>
+                                        <div class="image-container">
+                                            <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; position: absolute; inset: 0;">
+                                                <img alt=""
+                                                     th:src="@{${item.getItemImage()}}"
+                                                     decoding="async" data-nimg="fill" class="css-0"
+                                                     style="position: absolute; inset: 0; box-sizing: border-box; padding: 0; border: none; margin: auto; display: block; width: 0; height: 0; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover;">
+                                            </span>
+                                        </div>
+                                        <div class="item-detail-container">
+                                            <div class="item-name-container">
+                                                <p class="_text" th:text="${item.getItemName()}"></p>
+                                                <p class="-detail"></p>
+                                            </div>
+                                            <div class="item-price">
+                                                <p class="_text" th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"></p>
+                                                <span class="_text-unDiscount"></span>
+                                                <div class="line"></div>
+                                                <p class="quantity" th:text="|${item.getQuantity()} 개|"></p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div class="information-text">
+                        <h3 class="orderEr-information">주문자 정보</h3>
+                    </div>
+                    <div id="kurly-orderer-info" class="orderEr-information-detail">
+                        <div class="orderEr name">
+                            <span class="_text">보내는 분</span>
+                            <div class="orderEr-text name">
+                                <div class="orderEr-detail name" th:text="${member.getUserName()}"></div>
+                            </div>
+                        </div>
+                        <div class="orderEr phone">
+                            <span class="_text">휴대폰</span>
+                            <div class="orderEr-text phone">
+                                <div class="orderEr-detail phone" th:text="${member.getContact()}"></div>
+                            </div>
+                        </div>
+                        <div class="orderEr email">
+                            <span class="_text">이메일</span>
+                            <div class="orderEr-text email">
+                                <div class="orderEr-detail email" th:text="${member.getEmail()}">
+                                    <div class="text-container">
+                                        <p class="__text">이메일을 통해 주문 처리 과정을 보내드립니다.</p>
+                                        <p class="__text">정보 변경은 마이칼리 > 개인정보 수정 메뉴에서 가능합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="shipping-container" class="shipping-container">
+                        <div class="shipping-information-text">
+                            <h3 class="shipping-information">배송 정보</h3>
+                            <div class="announce-contain">
+                                <div class="announce">
+                                    <span>배송지 변경 안내</span>
+                                    <img alt="questionIcon"
+                                         src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y29tbW9uX2J0bl9xdWVzdGlvbjwvdGl0bGU+CiAgICA8ZyBpZD0iY29tbW9uX2J0bl9xdWVzdGlvbiIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTkuOTkzLDMuNyBDMTEuNzM0ODYwNCwzLjcgMTMuMzExNDEzLDQuNDA1Mzc4MTIgMTQuNDUyNjI3LDUuNTQ1NDUxOTcgQzE1LjU5NDA1OTQsNi42ODU3NDQwOSAxNi4zLDguMjYwOTE3NTQgMTYuMywxMCBDMTYuMywxMS43MzkwODI1IDE1LjU5NDA1OTQsMTMuMzE0MjU1OSAxNC40NTI2MjcsMTQuNDU0NTQ4IEMxMy4zMTE0MTMsMTUuNTk0NjIxOSAxMS43MzQ4NjA0LDE2LjMgOS45OTMsMTYuMyBDOC4yNTQ5MjA3OCwxNi4zIDYuNjgyMTMzMDUsMTUuNTk0ODI0NCA1LjU0MzY3MTgsMTQuNDU1MjIzNiBDNC40MDQzNzU5NSwxMy4zMTQ3ODczIDMuNywxMS43MzkzMjc1IDMuNywxMCBDMy43LDguMjYwNjcyNSA0LjQwNDM3NTk1LDYuNjg1MjEyNzMgNS41NDM2NzE4LDUuNTQ0Nzc2NDQgQzYuNjgyMTMzMDUsNC40MDUxNzU1OSA4LjI1NDkyMDc4LDMuNyA5Ljk5MywzLjcgTDkuOTkzLDMuNyBaIiBpZD0iY29tbW9uX2ljb25fdG9vbHRpcCIgc3Ryb2tlPSIjOTk5OTk5IiBzdHJva2Utd2lkdGg9IjEuNCI+PC9wYXRoPgogICAgICAgIDxwYXRoIGQ9Ik03LjUsOC4yMTA4MTA4MSBMOC43NzAyNzAyNyw4LjIxMDgxMDgxIEM4LjgxMzUxMzUxLDcuNTUxMzUxMzUgOS4yNjIxNjIxNiw3LjEyOTcyOTczIDkuOTU5NDU5NDYsNy4xMjk3Mjk3MyBDMTAuNjQwNTQwNSw3LjEyOTcyOTczIDExLjA5NDU5NDYsNy41MzUxMzUxNCAxMS4wOTQ1OTQ2LDguMDk3Mjk3MyBDMTEuMDk0NTk0Niw4LjU4NzgzNzg0IDEwLjkwMzgyODgsOC44Njk0NDQ0NCAxMC4zNTU3NTU4LDkuMjI1MjM3NzQgTDEwLjE5NzI5NzMsOS4zMjQzMjQzMiBDOS40NTEzNTEzNSw5Ljc2MjE2MjE2IDkuMTM3ODM3ODQsMTAuMjQ4NjQ4NiA5LjE4NjQ4NjQ5LDExLjA1OTQ1OTUgTDkuMTkxODkxODksMTEuNDI3MDI3IEwxMC40NDU5NDU5LDExLjQyNzAyNyBMMTAuNDQ1OTQ1OSwxMS4xMTg5MTg5IEMxMC40NDU5NDU5LDEwLjU4Mzc4MzggMTAuNjQ1OTQ1OSwxMC4zMDgxMDgxIDExLjM1NDA1NDEsOS44OTE4OTE4OSBDMTIuMDg5MTg5Miw5LjQ1NDA1NDA1IDEyLjUsOC44NzU2NzU2OCAxMi41LDguMDQ4NjQ4NjUgQzEyLjUsNi44NTQwNTQwNSAxMS41MTA4MTA4LDYgMTAuMDI5NzI5Nyw2IEM4LjQyNDMyNDMyLDYgNy41NDMyNDMyNCw2LjkyOTcyOTczIDcuNSw4LjIxMDgxMDgxIFogTTkuODc4Mzc4MzgsMTQuMDA1NDA1NCBDOS4zMzc4Mzc4NCwxNC4wMDU0MDU0IDguOTgxMDgxMDgsMTMuNjY0ODY0OSA4Ljk4MTA4MTA4LDEzLjE0NTk0NTkgQzguOTgxMDgxMDgsMTIuNjIxNjIxNiA5LjMzNzgzNzg0LDEyLjI4MTA4MTEgOS44NzgzNzgzOCwxMi4yODEwODExIEMxMC40Mjk3Mjk3LDEyLjI4MTA4MTEgMTAuNzc1Njc1NywxMi42MjE2MjE2IDEwLjc3NTY3NTcsMTMuMTQ1OTQ1OSBDMTAuNzc1Njc1NywxMy42NjQ4NjQ5IDEwLjQyOTcyOTcsMTQuMDA1NDA1NCA5Ljg3ODM3ODM4LDE0LjAwNTQwNTQgWiIgaWQ9Ij8iIGZpbGw9IiM5OTk5OTkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4="
+                                         class="questionIcon">
+                                </div>
+                                <div class="-visible">
+                                    <span>장바구니, 마이칼리에서 배송지를 변경할 수 있어요.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="shipping">
+                            <div class="shipping-text-container">
+                                <span class="delivery-shipping">배송지</span>
+                                <div class="shipping-text">
+                                    <span class="normal-shipping">기본배송지</span>
+                                    <p class="_text" th:text="${member.getAddress()}"></p>
+                                    <div class="change-button-cover">
+                                        <button class="change-button" type="button">
+                                            <span class="change-text">변경</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="checkout-shipping-details" class="request-container">
+                        </div>
+                    </div>
+                    <div></div>
+                    <div id="final-pay" class="final-pay">
+                        <div class="final">
+                            <div class="agreement">
+                                <h3 class="agreement-text">개인정보 및 결제 동의</h3>
+                            </div>
+                            <div class="agreement-detail">
+                                <div class="personal --agree">
+                                    <span class="personal-text --text">개인정보 수집∙이용 및 처리 동의</span>
+                                    <button class="personal-watch --watch">보기</button>
+                                </div>
+                                <div class="payment --agree">
+                                    <span class="payment-text --text">전자지급 결제대행 서비스 이용약관 동의</span>
+                                    <button class="payment-watch --watch">보기</button>
+                                </div>
+                                <strong class="all-agreement">위 내용을 확인하였으며 결제에 동의합니다.</strong>
+                            </div>
+                            <p class="_text">* 주문완료 상태일 경우에만 주문 취소가 가능하며, 상품 미배송 시 결제하신 수단으로 환불됩니다.</p>
+                            <p class="_text">* 칼리 내 개별 판매자가 등록한 오픈마켓 상품의 경우 컬리는 통신판매중개자로서 주문, 품질, 교환/환불 등 의무와 책임을 부담하지
+                                않습니다.</p>
+                            <div class="pay-button-cover">
+                                <button class="pay-button">
+                                    <span class="pay-price"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="price-final" class="price-final">
+                            <div class="price-final-box">
+                                <div class="price-text-cover">
+                                    <h3 class="price-text">결제금액</h3>
+                                </div>
+                                <div class="-price">
+                                    <div class="order-text">
+                                        <div class="price-total-text">주문금액</div>
+                                        <div>
+                                            <span class="pay-total-price">
+                                                <span class="sign"></span>
+                                            </span>
+                                            <span class="won">원</span>
+                                        </div>
+                                    </div>
+                                    <div class="--price">
+                                        <div class="--price-text">
+                                            <svg width="16" height="20" viewBox="0 0 16 20" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M1 5H0V10V11H1H6V10H1V5Z" fill="#ddd"></path>
+                                            </svg>
+                                            <div class="--price-total-text">상품금액</div>
+                                        </div>
+                                        <div>
+                                            <span class="total-price item-total-price">
+                                                <span class="sign"></span>
+
+                                            </span>
+                                            <span class="won">원</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount --price">
+                                        <div class="discount --price-text">
+                                            <svg width="16" height="20" viewBox="0 0 16 20" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M1 5H0V10V11H1H6V10H1V5Z" fill="#ddd"></path>
+                                            </svg>
+                                            <div class="discount --price-total-text">배송비</div>
+                                        </div>
+                                        <div>
+                                            <span class="total-price">
+                                                <span class="sign"></span>
+                                                0
+                                            </span>
+                                            <span class="won">원</span>
+                                        </div>
+                                    </div>
+                                    <div class="final-total-price">
+                                        <div class="final-price-text">최종결제금액</div>
+                                        <div>
+                                             <span class="price-text total">
+                                                <span class="sign"></span>
+
+                                             </span>
+                                            <span class="won">원</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

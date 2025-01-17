@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>inquiryWrite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/kms/assets/styles/inquiry.css" type="text/css">
+    <script src="/kms/assets/scripts/inquiry.js" type="text/javascript" defer></script>
+</head>
+<body>
+<div class="main">
+    <div class="inquiry">
+        <div class="inquiry-div-main">
+            <div class="inquiry-top">
+                <div class="inquiry-top-div">
+                    <h2 class="inquiry-main-h2">문의하기</h2>
+                </div>
+            </div>
+            <div class="inquiry-middle">
+                <form id="inquiryForm">
+                    <div class=title-div1>
+                        <div class="title-div2">
+                            <label for="inquiry-title">
+                                제목
+                                <span class="inquiry-title">*</span>
+                            </label>
+                        </div>
+                        <div class="input-div1">
+                            <div class="input-div2">
+                                <div class="input-div3">
+                                    <label>
+                                        <input name="title" id="inquiry-title" class="input-cell" type="text" minlength="1" maxlength="10" placeholder="제목을 입력해주세요">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-div1">
+                        <div class="content-div2">
+                            <div class="content-div3">
+                                <label for="inquiry-contents">
+                                    내용
+                                    <span class="inquiry-content">*</span>
+                                </label>
+                            </div>
+                            <div class="text-div1">
+                                <div class="text-div2">
+                                    <div class="text-div3">
+                                        <textarea name="content" id="inquiry-contents" minlength="2" maxlength="30" class="text-cell" placeholder="내용을 입력하세요."></textarea>
+<!--                                        <div>-->
+<!--                                            <div>-->
+<!--                                                <strong>후기 작성 전 확인해주세요!</strong>-->
+<!--                                                <p>전화번호, 이메일, 주소, 계좌번호 등의 상세 개인정보가 후기 내용에 저장되지 않도록 주의해 주시기 바랍니다.</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                        <span class="text-count">
+                                                <span>
+                                                    <span class="text-span">0자</span>
+                                                    <span class="text-span">/ 100자</span>
+                                                </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="image-div1">
+                        <div class="image-div2">
+                            <label></label>
+                        </div>
+<!--                        <div class="image-div3">-->
+<!--                            <div class="image-div4">-->
+<!--                                <div class="image-div5">-->
+<!--                                    <div class="image-div6">-->
+<!--                                        <div class="image-div7">-->
+<!--                                            <label for="imageInput" >-->
+<!--                                                <button id="imageButton" class="image-button" type="button">-->
+<!--                                                    <span class="image-span1"></span>-->
+<!--                                                </button>-->
+<!--                                                <input class="image-cell" id="imageInput" multiple type="file" accept="image/jpg, image/jpeg, image/png, image/bmp">-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="image-div8">-->
+<!--                                        <div class="image-div9">-->
+<!--                                            <span class="image-span2"></span>30MB 이하의 이미지만 업로드 가능합니다.-->
+<!--                                        </div>-->
+<!--                                        <div class="image-div9">-->
+<!--                                            <span class="image-span2"></span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수 있습니다.-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                    <div id="result"></div>
+                    <div class="inquiry-bottom">
+                        <button class="inquiry-submit" type="submit" th:href="@{'/kurly/goods'}">등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

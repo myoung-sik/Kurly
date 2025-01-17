@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.MemberMapper">
+
+    <update id="updateMember"
+            parameterType="com.bhs.sssss.entities.MemberEntity">
+        UPDATE `kurly`.`members`
+        SET `id`           = #{id},
+            `cart_id`      = #{cartId},
+            `password`     = #{password},
+            `user_name`    = #{userName},
+            `email`        = #{email},
+            `contact`      = #{contact},
+            `address`      = #{address},
+            `gender`       = #{gender},
+            `birth`        = #{birth},
+            `created_at`   = #{createdAt},
+            `updated_at`   = #{updatedAt},
+            `deleted_at`   = #{deletedAt},
+            `is_admin`     = #{isAdmin},
+            `is_suspended` = #{isSuspended},
+            `is_verified`  = #{isVerified}
+        WHERE `email` = #{email}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </update>
+
+    <select id="selectUserByContact"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
+               `password` AS `password`,
+               `user_name` AS `userName`,
+               `email` AS `email`,
+               `contact` AS `contact`,
+               `address` AS `address`,
+               `gender` AS `gender`,
+               `birth` AS `birth`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`,
+               `deleted_at` AS `deletedAt`,
+               `is_admin` AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified` AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `contact` = #{contact}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="selectUserById"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
+               `password` AS `password`,
+               `user_name` AS `userName`,
+               `email` AS `email`,
+               `contact` AS `contact`,
+               `address` AS `address`,
+               `gender` AS `gender`,
+               `birth` AS `birth`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`,
+               `deleted_at` AS `deletedAt`,
+               `is_admin` AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified` AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `id` = #{id}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
+    <select id="selectUserByEmail"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
+               `password` AS `password`,
+               `user_name` AS `userName`,
+               `email` AS `email`,
+               `contact` AS `contact`,
+               `address` AS `address`,
+               `gender` AS `gender`,
+               `birth` AS `birth`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`,
+               `deleted_at` AS `deletedAt`,
+               `is_admin` AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified` AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `email` = #{email}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="selectUserByNameAndEmail"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id`           AS `id`,
+               `cart_id`      AS `cartId`,
+               `password`     AS `password`,
+               `user_name`    AS `userName`,
+               `email`        AS `email`,
+               `contact`      AS `contact`,
+               `address`      AS `address`,
+               `gender`       AS `gender`,
+               `birth`        AS `birth`,
+               `created_at`   AS `createdAt`,
+               `updated_at`   AS `updatedAt`,
+               `deleted_at`   AS `deletedAt`,
+               `is_admin`     AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified`  AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `email` = #{email}
+          AND `user_name` = #{userName}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
+
+    <select id="selectMembersCount" resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`members`
+    </select>
+
+    <select id="selectMembersCountBySearch" resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`members`
+        WHERE `user_name` LIKE CONCAT('%', #{keyword}, '%')
+           OR `id` LIKE CONCAT('%', #{keyword}, '%')
+           OR `email` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="selectMembers"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id`           AS `id`,
+               `cart_id` AS `cartId`,
+               `password`     AS `password`,
+               `user_name`    AS `userName`,
+               `email`        AS `email`,
+               `contact`      AS `contact`,
+               `address`      AS `address`,
+               `gender`       AS `gender`,
+               `birth`        AS `birth`,
+               `created_at`   AS `createdAt`,
+               `updated_at`   AS `updatedAt`,
+               `deleted_at`   AS `deletedAt`,
+               `is_admin`     AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified`  AS `isVerified`
+        FROM `kurly`.`members`
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectMembersBySearch"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id`           AS `id`,
+               `cart_id` AS `cartId`,
+               `password`     AS `password`,
+               `user_name`    AS `userName`,
+               `email`        AS `email`,
+               `contact`      AS `contact`,
+               `address`      AS `address`,
+               `gender`       AS `gender`,
+               `birth`        AS `birth`,
+               `created_at`   AS `createdAt`,
+               `updated_at`   AS `updatedAt`,
+               `deleted_at`   AS `deletedAt`,
+               `is_admin`     AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified`  AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `user_name` LIKE CONCAT('%', #{keyword}, '%')
+           OR `id` LIKE CONCAT('%', #{keyword}, '%')
+           OR `email` LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectUserByIdIncludeDeleted"
+            resultType="com.bhs.sssss.entities.MemberEntity">
+        SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
+               `password` AS `password`,
+               `user_name` AS `userName`,
+               `email` AS `email`,
+               `contact` AS `contact`,
+               `address` AS `address`,
+               `gender` AS `gender`,
+               `birth` AS `birth`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`,
+               `deleted_at` AS `deletedAt`,
+               `is_admin` AS `isAdmin`,
+               `is_suspended` AS `isSuspended`,
+               `is_verified` AS `isVerified`
+        FROM `kurly`.`members`
+        WHERE `id` = #{id}
+        LIMIT 1
+    </select>
+
+
+    <insert id="insertMember"
+            parameterType="com.bhs.sssss.entities.MemberEntity">
+        INSERT INTO `kurly`.`members` (`id`, `cart_id`, `password`, `user_name`, `email`, `contact`, `address`, `gender`, `birth`, `created_at`, `updated_at`, `deleted_at`, `is_admin`, `is_suspended`, `is_verified`)
+        VALUES (#{id}, #{cartId}, #{password}, #{userName}, #{email}, #{contact}, #{address}, #{gender}, #{birth}, #{createdAt}, #{updatedAt}, #{deletedAt}, #{isAdmin}, #{isSuspended}, #{isVerified})
+    </insert>
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

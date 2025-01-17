@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.ItemMapper">
+
+
+
+    <select id="selectItems"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+    </select>
+
+    <select id="selectItemCount"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+    </select>
+
+    <select id="selectItemCount1"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `sticker` IS NOT NULL
+    </select>
+
+    <select id="selectItemCount2"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `discount_rate` IS NOT NULL
+    </select>
+
+    <select id="selectItemCountByKeyword"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `item_title` LIKE CONCAT('%', #{keyword}, '%')
+          OR `sub_title` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="selectItemsByNew"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectItemsBySticker"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `sticker` IS NOT NULL
+        ORDER BY `index`
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectItemsByDiscount"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `discount_rate` IS NOT NULL
+        ORDER BY `index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectItemsByKeyword"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `deleted_at` IS NULL
+          AND `item_title` LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY `index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectItemByItemId"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `image_url`     AS `imageUrl`,
+               `sticker`       AS `sticker`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `discount_rate` AS `discountRate`,
+               `sales_price`   AS `salesPrice`,
+               `price`         AS `price`,
+               `delivery`      AS `delivery`,
+               `seller`        AS `seller`,
+               `packaging`     AS `packaging`,
+               `detail_image`  AS `detailImage`,
+               `words`         AS `words`,
+               `kurly_check`   AS `kurlyCheck`,
+               `detail_info`   AS `detailInfo`,
+               `is_manual`     AS `isManual`,
+               `created_at`    AS `createdAt`,
+               `updated_at`    AS `updatedAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL
+        LIMIT 1
+    </select>
+
+
+
+    <!-- 상품을 데이터베이스에 저장 -->
+    <insert id="insertItem" parameterType="com.bhs.sssss.entities.ItemEntity">
+        INSERT INTO `kurly`.`items` (`item_id`, `image_url`, `sticker`, `item_title`, `sub_title`, `discount_rate`, `sales_price`, `price`, `delivery`, `seller`, `packaging`, `detail_image`, `words`, `kurly_check`, `detail_info`, `is_manual`, `created_at`, `updated_at`, `deleted_at`)
+        VALUES (#{itemId}, #{imageUrl}, #{sticker}, #{itemTitle}, #{subTitle}, #{discountRate}, #{salesPrice}, #{price}, #{delivery}, #{seller}, #{packaging}, #{detailImage}, #{words}, #{kurlyCheck}, #{detailInfo}, #{isManual}, NOW(), NOW(), NULL)
+    </insert>
+
+    <!-- Index로 상품 조회 -->
+    <select id="selectItemByIndex" parameterType="_int" resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT *
+        FROM `kurly`.`items`
+        WHERE `index` = #{index}
+    </select>
+
+    <!-- 모든 상품을 조회 -->
+    <select id="selectAllItems" resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT *
+        FROM `kurly`.`items`
+    </select>
+
+    <!-- 상품 정보 수정 -->
+    <update id="updateItem" parameterType="com.bhs.sssss.entities.ItemEntity">
+        UPDATE `kurly`.`items`
+        SET `item_id`       = #{itemId},
+            `image_url`     = #{imageUrl},
+            `sticker`       = #{sticker},
+            `item_title`    = #{itemTitle},
+            `sub_title`     = #{subTitle},
+            `discount_rate` = #{discountRate},
+            `sales_price`   = #{salesPrice},
+            `price`         = #{price},
+            `delivery`      = #{delivery},
+            `seller`        = #{seller},
+            `packaging`     = #{packaging},
+            `detail_image`  = #{detailImage},
+            `words`         = #{words},
+            `kurly_check`   = #{kurlyCheck},
+            `detail_info`   = #{detailInfo},
+            `is_manual`     = #{isManual},
+            `updated_at`    = NOW()
+        WHERE `index` = #{index};
+    </update>
+
+    <!-- 상품 삭제 -->
+    <update id="deleteItem" parameterType="com.bhs.sssss.entities.ItemEntity">
+        UPDATE `kurly`.`items`
+        SET `deleted_at` = NOW()
+        WHERE `index` = #{index}
+          AND `deleted_at` IS NULL;
+    </update>
+</mapper>

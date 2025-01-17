@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/mypage/assets/styles/leave.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/mypage/assets/scripts/leave.js'}"></script>
+    <title>칼리 - 마켓칼리</title>
+    <script th:if="${member == null}">
+        alert('올바르지 않은 접근입니다.');
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+</head>
+<body th:if="${member != null}">
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main id="main">
+    <div class="title">회원탈퇴안내</div>
+    <div class="notice-container">
+        <div class="left">
+            <label class="label">회원탈퇴안내</label>
+        </div>
+        <div class="right">
+            <div class="text">고객님께서 회원 탈퇴를 원하신다니 저희 쇼핑몰의 서비스가 많이 부족하고 미흡했나 봅니다. 불편하셨던 점이나 불만사항을 알려주시면 적극 반영해서 고객님의 불편함을 해결해 드리도록 노력하겠습니다.
+                <strong class="highlight">정말로 탈퇴 하시려면 아래에 현재 비밀번호를 입력해 주세요.</strong>
+            </div>
+        </div>
+    </div>
+    <form id="leave-form">
+        <div class="password-box">
+            <div class="left">
+                <label for="password" class="text">비밀번호 입력</label>
+            </div>
+            <div class="right">
+                <label for="password" class="password-label">
+                    <input type="password" class="password" name="password" id="password" placeholder="현재 비밀번호를 입력해주세요">
+                </label>
+            </div>
+            <div class="empty-box"></div>
+        </div>
+        <div class="button-container">
+            <a href="/mypage/info">
+                <button class="cancel-button --obj-button --color-light-primary" type="button">취소</button>
+            </a>
+            <button class="leave-button --obj-button --color-primary" type="submit">탈퇴</button>
+        </div>
+    </form>
+</main>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

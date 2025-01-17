@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>reviewWrite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/kms/assets/styles/modify.css" type="text/css">
+    <script src="/kms/assets/scripts/modify.js" type="text/javascript" defer></script>
+</head>
+<body>
+<div class="main">
+    <div class="review">
+        <div class="review-div-main">
+            <div class="review-top">
+                <div class="review-top-div">
+                    <h2 class="review-main-h2">수정하기</h2>
+                </div>
+            </div>
+            <div class="review-middle">
+                <form id="modifyForm" method="post" enctype="multipart/form-data">
+                    <div class=title-div1>
+                        <div class="title-div2">
+                            <label for="review-title">
+                                제목
+                                <span class="review-title">*</span>
+                            </label>
+                        </div>
+                        <div class="input-div1">
+                            <div class="input-div2">
+                                <div class="input-div3">
+                                    <label>
+                                        <input name="title" id="review-title" class="input-cell" type="text" minlength="1" maxlength="50" placeholder="제목을 입력해주세요">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-div1">
+                        <div class="content-div2">
+                            <div class="content-div3">
+                                <label for="review-contents">
+                                    내용
+                                    <span class="review-content">*</span>
+                                </label>
+                            </div>
+                            <div class="text-div1">
+                                <div class="text-div2">
+                                    <div class="text-div3">
+                                        <textarea name="content" id="review-contents" minlength="2" maxlength="500" class="text-cell" placeholder="내용을 입력하세요."></textarea>
+                                        <!--                                        <div>-->
+                                        <!--                                            <div>-->
+                                        <!--                                                <strong>후기 작성 전 확인해주세요!</strong>-->
+                                        <!--                                                <p>전화번호, 이메일, 주소, 계좌번호 등의 상세 개인정보가 후기 내용에 저장되지 않도록 주의해 주시기 바랍니다.</p>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
+                                        <span class="text-count">
+                                                <span>
+                                                    <span class="text-span">0자</span>
+                                                    <span class="text-span">/ 500자</span>
+                                                </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="image-div1">
+                        <div class="image-div2">
+                            <label></label>
+                        </div>
+                        <div class="image-div3">
+                            <div class="image-div4">
+                                <div class="image-div5">
+                                    <div class="image-div6">
+                                        <div class="image-div7">
+                                            <label for="imageInput">
+                                                <button id="imageButton" class="image-button" type="button">
+                                                    <span class="image-span1"></span>
+                                                </button>
+                                                <input class="image-cell" id="imageInput" name="image" multiple type="file"
+                                                       accept="image/*">
+                                            </label>
+                                        </div>
+<!--                                        <div id="imagePreview">-->
+<!--                                            &lt;!&ndash; 기존 이미지 URL을 표시 &ndash;&gt;-->
+<!--                                            <img src="${review.imageUrl}" alt="이미지 미리보기" width="100px" />-->
+<!--                                        </div>-->
+                                    </div>
+                                    <div class="image-div8">
+                                        <div class="image-div9">
+                                            <span class="image-span2"></span>30MB 이하의 이미지만 업로드 가능합니다.
+                                        </div>
+                                        <div class="image-div9">
+                                            <span class="image-span2"></span>상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보없이 삭제 될 수
+                                            있습니다.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="result"></div>
+                    <div class="review-bottom">
+                        <button class="review-submit" type="submit">수정하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

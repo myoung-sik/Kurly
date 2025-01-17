@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.PayMapper">
+    <insert id="insertItemLoad" parameterType="com.bhs.sssss.entities.PayLoadEntity">
+        INSERT INTO `kurly`.`pay_record`
+            (`cart_index`, `member_id`, `pay_item_id`, `pay_item_name`, `pay_item_price`, `pay_quantity`, `item_image`, `total_price`, `purchase_day`)
+        VALUES
+            (#{cartIndex}, #{memberId}, #{payItemId}, #{payItemName}, #{payItemPrice}, #{payQuantity}, #{itemImage}, #{totalPrice}, #{purchaseDay});
+
+    </insert>
+
+    <select id="selectAllCarts" resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `item_id`    AS `itemId`,
+               `member_id`  AS `memberId`,
+               `item_name`  AS `itemName`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`,
+               `is_checked` AS `isChecked`,
+               `is_deleted` AS `isDeleted`,
+               `item_image` AS `itemImage`
+        FROM `kurly`.`carts`
+        WHERE `is_deleted` IS FALSE
+          AND `member_id` = #{id}
+          AND `is_checked` = 1
+    </select>
+
+    <select id="selectAllPayLoads"
+            resultType="com.bhs.sssss.entities.PayLoadEntity">
+        SELECT `index`          AS `index`,
+               `cart_index`     AS `cartIndex`,
+               `member_id`      AS `memberId`,
+               `pay_item_id`    AS `payItemId`,
+               `pay_item_name`  AS `payItemName`,
+               `pay_item_price` AS `payItemPrice`,
+               `pay_quantity`   AS `payQuantity`,
+               `item_image`     AS `itemImage`,
+               `total_price`    AS `totalPrice`,
+               `purchase_day`   AS `purchaseDay`
+        FROM `kurly`.`pay_record`
+        WHERE `member_id` = #{id}
+        ORDER BY `purchase_day` DESC
+    </select>
+
+
+    <select id="selectCartById" resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index`      AS `index`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`
+        FROM kurly.`carts`
+        WHERE `item_id` = #{itemId}
+          AND `member_id` = #{id}
+    </select>
+
+    <select id="getPayIndexByCartIndex" resultType="java.lang.Integer">
+        SELECT `index`
+        FROM `kurly`.`carts`
+        WHERE `item_id` = #{payItemId}
+          AND `is_deleted` = false
+          AND `is_checked` = 1
+    </select>
+
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM `kurly`.`carts`
+        WHERE `cart_id` = #{cartId}
+          AND `item_id` = #{itemId}
+    </delete>
+</mapper>

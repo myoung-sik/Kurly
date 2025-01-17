@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/mypage/assets/styles/info.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/mypage/assets/scripts/info.modify.js'}"></script>
+    <script th:if="${member == null}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+    <title>칼리 - 마켓칼리</title>
+</head>
+<body th:if="${member != null}">
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main id="main">
+    <div th:replace="~{fragments/mypage-left :: leftFragment}"></div>
+
+    <div class="right">
+        <div class="title">
+            <h2 class="text">개인정보 수정</h2>
+        </div>
+        <div class="content-container">
+            <div class="content-box">
+                <form action="#" id="modify-form">
+                    <div class="input-container">
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="userId" class="label">아이디</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="userId" class="label">
+                                    <input readonly type="text" id="userId" class="userId" name="userId" th:value="${member.getId()}">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="password" class="label">새 비밀번호</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="password" class="label">
+                                    <input autocomplete="off" type="password" id="password" class="password" name="password" placeholder="새 비밀번호를 입력해주세요">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="password-check" class="label">새 비밀번호 확인</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="password-check" class="label">
+                                    <input autocomplete="off" type="password" id="password-check" class="password-check" name="password-check" placeholder="새 비밀번호를 다시 입력해주세요">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="userName" class="label">이름</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="userName" class="label">
+                                    <input type="text" id="userName" class="userName" name="userName" th:value="${member.getUserName()}">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box address-box">
+                            <div class="name-box">
+                                <label for="address" class="label">주소</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="address" class="label">
+                                    <input type="text" id="address" class="address" name="address" th:value="${member.getAddress()}">
+                                </label>
+                            </div>
+                            <div class="empty-box">
+                                <button class="find-button --obj-button --color-light-primary" type="button">
+                                    <span class="_text">
+                                        <img src="https://res.kurly.com/pc/service/cart/2007/ico_search.svg" alt="" class="image">
+                                        주소 검색
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="email" class="label">이메일</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="email" class="label">
+                                    <input readonly type="text" id="email" class="email" name="email" th:value="${member.getEmail()}">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="contact" class="label">연락처</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="contact" class="label">
+                                    <input readonly type="text" id="contact" class="contact" name="contact" th:value="${member.getContact()}">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                    </div>
+
+                    <div class="button-container modify">
+                        <a href="/mypage/leave">
+                            <button type="button" class="withdraw-button --obj-button --color-light-primary">탈퇴하기</button>
+                        </a>
+                        <button type="submit" class="modify-button --obj-button --color-primary">회원정보수정</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

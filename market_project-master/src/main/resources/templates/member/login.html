@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/member/assets/styles/login.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/member/assets/scripts/login.js'}"></script>
+    <script th:if="${session.member != null}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+    <title>로그인 - 칼리</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+<main id="main" th:if="${session.member == null}">
+    <div class="title">
+        <span class="title-text">로그인</span>
+    </div>
+    <div class="login-container">
+        <form id="login-form">
+            <div class="login-wrapper">
+                <div class="label-container">
+                    <label class="label">
+                        <input autocomplete="false" type="text" class="input-id" name="memberId" placeholder="아이디를 입력해주세요">
+                    </label>
+                </div>
+                <div class="label-container">
+                    <label class="label">
+                        <input type="password" class="input-password" name="password" placeholder="비밀번호를 입력해주세요" autocomplete="off">
+                    </label>
+                </div>
+            </div>
+            <div class="find-wrapper">
+                <a th:href="@{/member/find(type='id')}" class="find-id">아이디 찾기</a>
+                <span class="bar"></span>
+                <a th:href="@{/member/find(type='pw')}" class="find-password">비밀번호 찾기</a>
+            </div>
+            <div class="button-container">
+                <button class="login --obj-button --color-primary" type="submit">
+                    <span class="text">로그인</span>
+                </button>
+                <button class="signup --obj-button --color-light-primary" type="button">
+                    <a class="text link" th:href="@{/member/signup}">회원가입</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

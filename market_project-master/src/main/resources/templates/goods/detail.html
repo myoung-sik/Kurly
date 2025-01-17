@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" href="/kms/assets/styles/detail.css" type="text/css">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer src="/kms/assets/scripts/detail.js" type="text/javascript"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<div class="detail-page"> <!-- 상세 페이지 -->
+    <main class="detail-main" th:if="${item != null}">
+        <div class="detail-div1">
+            <div class="detail-div2">
+                <div class="detail-div3">
+                    <div class="detail-div4">
+                        <div class="detail-div5">
+                                        <span class="detail-span">
+                                            <img class="detail-image"
+                                                 th:src="@{${item.getImageUrl()}}"
+                                                 alt="">
+                                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="goods-info">
+            <div class="goods-subtit">샛별배송</div>
+            <label>
+                <input type="hidden" name="itemId" id="itemId" th:value="${item.getItemId()}">
+            </label>
+            <div class="goods-tit">
+                <h1 class="goods-h1" th:text="${item.getItemTitle()}"></h1>
+                <h2 class="goods-h2" th:text="${item.getSubTitle()}"></h2>
+            </div>
+            <h2 class="sale-price">
+                <span class="sale-price-span1" th:text="${item.getDiscountRate()}"></span>
+                <span class="sale-price-span2" th:text="${item.getSalesPrice()}"></span>
+                <span class="sale-price-span3">원~</span>
+            </h2>
+            <span class="price">
+                            <span class="price-span" th:text="${item.getPrice()}"></span>
+                    </span>
+            <a class="first-sale"
+               href="https://www.kurly.com/shop/event/kurlyEventV2.php?lego=event/2023/0911/join/coupon">
+                <div class="sale-div">
+                    <p class="sale-p">
+                        첫 구매라면
+                        <strong>10,000원</strong>
+                        즉시 할인
+                    </p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <defs>
+                            <path id="gfk9q0rhta" d="M1.657 1.657L9.657 1.657 9.657 9.657"></path>
+                        </defs>
+                        <g fill="none" fill-rule="evenodd">
+                            <g>
+                                <g>
+                                    <g>
+                                        <g transform="translate(-339 -398) translate(0 386) translate(339 12) translate(4.69 6.343)">
+                                            <use stroke="#5f0080" stroke-linecap="round" stroke-width="1.2"
+                                                 stroke-linejoin="round" transform="rotate(45 5.657 5.657)"
+                                                 xlink:href="#gfk9q0rhta"></use>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </a>
+            <ul class="goods-ul">
+                <li class="goods-li">
+                    <dt class="goods-dt">배송</dt>
+                    <dd class="goods-dd">
+                        <p class="goods-p1" th:text="${item.getDelivery()}"></p>
+                        <p class="goods-p2">23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착 (그 외 지역 아침 8시 전 도착)</p>
+                    </dd>
+                </li>
+                <li class="goods-li">
+                    <dt class="goods-dt">판매자</dt>
+                    <dd class="goods-dd">
+                        <p class="goods-p1" th:text="${item.getSeller()}"></p>
+                    </dd>
+                </li>
+                <li class="goods-li">
+                    <dt class="goods-dt">포장타입</dt>
+                    <dd class="goods-dd">
+                        <p class="goods-p1" id="packaging" th:text="${item.getPackaging()}"></p>
+                        <p class="goods-p2">택배배송은 에코 포장이 스티로폼으로 대체됩니다.
+                    </dd>
+                </li>
+            </ul>
+            <div class="goods-div">
+                <div class="goods-select">
+                    <li class="goods-li">
+                        <dt class="select-dt">상품 선택</dt> <!-- 미완성 -->
+                        <dd class="select-dd">
+                            <div class="select-div1" th:if="${item != null}">
+                                <div class="select-div2">
+                                    <span class="select-span1" th:text="${item.getItemTitle()}"></span>
+                                </div>
+                                <div class="select-div3">
+                                    <div class="select-div4">
+                                        <button type="button" disabled class="select-button1" id="decreaseBtn"></button>
+                                        <div class="select-div5" id="quantity">1</div>
+                                        <button type="button" class="select-button2" id="increaseBtn"></button>
+                                    </div>
+                                    <div class="select-div6">
+                                        <span class="select-span2" th:data-price="${item.getPrice()}" th:text="${item.getPrice()}"></span>
+                                        <span class="select-span3" id="dcPrice" th:data-dcprice="${item.getSalesPrice()}" th:text="${item.getSalesPrice()}"></span>
+                                        <span class="select-span4">원</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </dd>
+                    </li>
+                </div>
+                <div class="goods-total-price">
+                    <div class="total-div1">
+                        <div class="total-div2">
+                            <span class="total-span1">총 상품 금액 :</span>
+                            <span class="total-span2" id="totalPrice" th:text="${item.getSalesPrice()}"></span>
+                            <span class="total-span3">원</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="goods-button">
+                    <button class="heart-button" id="heartButton">
+                                    <span class="heart-span">
+                                        <img id="heartIcon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yNS44MDcgNy44NjNhNS43NzcgNS43NzcgMCAwIDAtOC4xNzIgMEwxNiA5LjQ5N2wtMS42MzUtMS42MzRhNS43NzkgNS43NzkgMCAxIDAtOC4xNzMgOC4xNzJsMS42MzQgMS42MzQgNy40NjYgNy40NjdhMSAxIDAgMCAwIDEuNDE1IDBzMCAwIDAgMGw3LjQ2Ni03LjQ2N2gwbDEuNjM0LTEuNjM0YTUuNzc3IDUuNzc3IDAgMCAwIDAtOC4xNzJ6IiBzdHJva2U9IiM1RjAwODAiIHN0cm9rZS13aWR0aD0iMS42IiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K"
+                                             alt="">
+                                    </span>
+                    </button>
+                    <button class="alarm-button">
+                                    <span class="alarm-span">
+                                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIHN0cm9rZT0iI0NDQyIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTEyLjY2NiAyM2EzLjMzMyAzLjMzMyAwIDEgMCA2LjY2NiAwIi8+CiAgICAgICAgPHBhdGggZD0iTTI1Ljk5OCAyMi43MzhINmwuMDEzLS4wM2MuMDc2LS4xMzUuNDcxLS43MDQgMS4xODYtMS43MDlsLjc1LTEuMDV2LTYuNjM1YzAtNC40ODUgMy40MzgtOC4xNCA3Ljc0MS04LjMwOEwxNiA1YzQuNDQ2IDAgOC4wNSAzLjcyMiA4LjA1IDguMzE0djYuNjM0bDEuNzA3IDIuNDExYy4xNzMuMjUzLjI1NC4zOC4yNDIuMzh6IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KICAgIDwvZz4KPC9zdmc+Cg=="
+                                             alt="">
+                                    </span>
+                    </button>
+                    <div class="goods-in-cart">
+                        <button class="cart-button" id="cart-button3">
+                            <span class="cart-button-span">장바구니 담기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main> <!-- 상세 페이지 상품 정보 -->
+    <nav class="goods-nav">
+        <ul class="goods-nav-ul">
+            <li class="goods-nav-li">
+                <a class="goods-nav-a" href="#description">
+                    <span class="goods-nav-span">상품설명</span>
+                </a>
+            </li>
+            <li class="goods-nav-li">
+                <a class="goods-nav-a" href="#detail">
+                    <span class="goods-nav-span">상세정보</span>
+                </a>
+            </li>
+            <li class="goods-nav-li">
+                <a class="goods-nav-a" href="#review">
+                    <span class="goods-nav-span">후기</span>
+                    <span class="goods-nav-count">(<span th:text="${totalReviews}"></span>)</span>
+                </a>
+            </li>
+            <li class="goods-nav-li">
+                <a class="goods-nav-a" href="#inquiry">
+                    <span class="goods-nav-span">문의</span>
+                </a>
+            </li>
+        </ul>
+    </nav> <!-- 상세 페이지 카테고리 라인 -->
+    <div class="goods-category-content"> <!-- 상세 페이지 카테고리 내용 -->
+        <div id="description" class="goods-description">
+            <div class="goods-description-div1">
+                <div class="goods-description-div2">
+                    <div class="goods-wrap">
+                        <div class="goods-intro">
+                            <div class="pic">
+                                <img th:src="@{${item.getDetailImage()}}"
+                                     alt="">
+                            </div>
+                            <div class="context last">
+                                <h3>
+                                    <small th:text="${item.getSubTitle()}"></small>
+                                    <span th:text="${item.getItemTitle()}"></span>
+                                </h3>
+                                <p class="words" th:text="${item.getWords()}">
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="goods-point">
+                            <h3>
+                                <!-- ::before -->
+                                <span class="goods-point-span">Kurly's Check Point</span>
+                            </h3>
+                            <div class="context last">
+                                <div class="pic">
+                                    <img th:src="@{${item.getKurlyCheck()}}"
+                                         alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blank"></div>
+        </div>
+        <div id="detail" class="goods-detail">
+            <div class="blank"></div>
+            <div class="goods-detail-image1">
+                <img class="more"
+                     th:src="@{${item.getDetailInfo()}}"
+                     alt="자세히보기 이미지">
+            </div>
+            <div class="goods-detail-image2">
+                <h3 class="goods-detail-h3">상품고시정보</h3>
+                <ul class="goods-notice-ul">
+                    <li class="goods-notice-li1">품목 또는 명칭</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">포장단위별 내용물의 용량(중량), 수량, 크기</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">생산자, 수입품의 경우 수입자를 함께 표기</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">｢농수산물의 원산지 표시 등에 관한 법률｣에 따른 원산지</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">제조연월일, 소비기한 또는 품질유지기한</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">농수산물 – ｢농수산물 품질관리법｣에 따른 유전자변형농수산물 표시, 지리적 표시</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">축산물 - ｢축산법｣에 따른 등급 표시(1++ 등급 국내산 쇠고기의 경우 ｢소ㆍ돼지 식육의 표시방법 및
+                        부위 구분기준｣에 따라 근내지방도 정보를 포함하여 표시), ｢가축 및 축산물 이력관리에 관한 법률｣에 따른 이력관리대상축산물 유무
+                    </li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">수입 농수축산물 – “수입식품안전관리 특별법에 따른 수입신고를 필함”의 문구</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">상품구성</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">보관방법 또는 취급방법</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">소비자 안전을 위한 주의사항 (｢식품 등의 표시ㆍ광고에 관한 법률 시행규칙｣ 제5조 및 [별표 2]에 따른
+                        표시사항을 말함)
+                    </li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                    <li class="goods-notice-li1">소비자 상담 관련 전화번호</li>
+                    <li class="goods-notice-li2">상품설명 및 상품이미지 참조</li>
+                </ul>
+            </div>
+            <div class="goods-detail-image3">
+                <div class="goods-detail-top">
+                    <span class="goods-detail-span1">WHY KURLY</span>
+                </div>
+                <div class="goods-detail-middle">
+                    <dl class="goods-detail-dl">
+                        <dt class="goods-detail-dt dt1">
+                            깐깐한 상품위원회
+                        </dt>
+                        <dd class="goods-detail-dd">
+                            나와 내 가족이 먹고 쓸 상품을 고르는
+                            <br>
+                            마음으로 매주 상품을 직접 먹어보고,
+                            <br>
+                            경험해보고 성분, 맛, 안정성 등 다각도의
+                            <br>
+                            기준을 통과한 상품만을 판매합니다.
+                            <span class="goods-detail-span2">(온라인 기준 / 자사몰, 직구 제외)</span>
+                        </dd>
+                    </dl>
+                    <dl class="goods-detail-dl">
+                        <dt class="goods-detail-dt dt2">
+                            차별화된 Kurly Only 상품
+                        </dt>
+                        <dd class="goods-detail-dd">
+                            전국 각지와 해외의 훌륭한 생산자가
+                            <br>
+                            믿고 선택하는 파트너, 컬리.
+                            <br>
+                            3천여 개가 넘는 컬리 단독 브랜드, 스펙의
+                            <br>
+                            Kurly Only 상품을 믿고 만나보세요.
+                            <span class="goods-detail-span2">(온라인 기준 / 자사몰, 직구 제외)</span>
+                        </dd>
+                    </dl>
+                    <dl class="goods-detail-dl">
+                        <dt class="goods-detail-dt dt3">
+                            신선한 풀콜드체인 배송
+                        </dt>
+                        <dd class="goods-detail-dd">
+                            온라인 업계 최초로 산지에서 문 앞까지
+                            <br>
+                            상온, 냉장, 냉동 상품을 분리 포장 후
+                            <br>
+                            최적의 온도를 유지하는 냉장 배송 시스템,
+                            <br>
+                            풀콜드체인으로 상품을 신선하게 전해드립니다.
+                            <span class="goods-detail-span2">(샛별배송에 한함)</span>
+                        </dd>
+                    </dl>
+                    <dl class="goods-detail-dl">
+                        <dt class="goods-detail-dt dt4">
+                            고객, 생산자를 위한 최선의 가격
+                        </dt>
+                        <dd class="goods-detail-dd">
+                            매주 대형 마트와 주요 온라인 마트의 가격
+                            <br>
+                            변동 상황을 확인해 신선식품은 품질을
+                            <br>
+                            타협하지 않는 선에서 최선의 가격으로,
+                            <br>
+                            가공식품은 언제나 합리적인 가격으로
+                            <br>
+                            정기 조정합니다.
+                        </dd>
+                    </dl>
+                    <dl class="goods-detail-dl">
+                        <dt class="goods-detail-dt dt5">
+                            환경을 생각하는 지속 가능한 유통
+                        </dt>
+                        <dd class="goods-detail-dd">
+                            친환경 포장재부터 생산자가 상품에만
+                            <br>
+                            집중할 수 있는 직매입 유통구조까지,
+                            <br>
+                            지속 가능한 유통을 고민하며 컬리를 있게
+                            <br>
+                            하는 모든 환경(생산자, 커뮤니티, 직원)이
+                            <br>
+                            더 나아질 수 있도록 노력합니다.
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="goods-detail-image4">
+                <div class="goods-detail-guide">
+                    <div class="goods-guide-div">
+                        <h5 class="goods-guide-h5">고객행복센터</h5>
+                        <p class="goods-guide-p">
+                            궁금하신 점이나 서비스 이용에 불편한 점이 있으신가요?
+                            <span class="goods-guide-span">문제가 되는 부분을 사진으로 찍어 아래 중 편하신 방법으로 접수해
+                                        주시면 빠르게 도와드리겠습니다.</span>
+                        </p>
+                    </div>
+                    <ul class="goods-guide-ul">
+                        <li class="goods-guide-li">
+                            <strong class="goods-guide-strong1">
+                                전화 문의 1644-1107
+                            </strong>
+                            <span class="goods-guide-li-span">월~토요일 오전 7시 - 오후 6시</span>
+                        </li>
+                        <li class="goods-guide-li">
+                            <strong class="goods-guide-strong1">
+                                카카오톡 문의
+                            </strong>
+                            <span class="goods-guide-li-span">월~토요일 오전 7시 - 오후 6시</span>
+                            <span class="goods-guide-li-span">일/공휴일 오전 7시 - 오후 1시</span>
+                            <strong class="goods-guide-strong2">
+                                카카오톡에서 '컬리'를 검색 후
+                                <br>
+                                대화창에 문의 및 불편사항을
+                                <br>
+                                남겨주세요.
+                            </strong>
+                        </li>
+                        <li class="goods-guide-li">
+                            <strong class="goods-guide-strong1">
+                                홈페이지 문의
+                            </strong>
+                            <span class="goods-guide-li-span">365일</span>
+                            <span class="goods-guide-li-span">로그인 > 마이컬리 > 1:1 문의</span>
+                            <strong class="goods-guide-strong2">
+                                고객센터 운영 시간에 순차적으로
+                                <br>
+                                답변해드리겠습니다.
+                            </strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="goods-guide-change1">
+                <strong class="goods-change-strong1">교환 및 환불 안내</strong>
+                <p class="goods-change-p1">교환 및 환불이 필요하신 경우 [마이컬리 > 주문내역]에서 직접 반품 접수하거나
+                    고객행복센터로 문의해 주시기 바랍니다.</p>
+                <button class="goods-close-button" type="button">닫기</button>
+            </div>
+            <div class="goods-guide-change2">
+                <b class="goods-guide-b">01. 상품에 문제가 있는 경우</b>
+                <p class="goods-guide-p2">받으신 상품이 표시·광고 내용 또는 계약 내용과 다른 경우에는 상품을 받은 날부터 3개월 이내,
+                    그 사실을 알게 된 날부터 30일 이내에 반품을 요청하실 수 있습니다.
+                    고객행복센터로 문의해 주시기 바랍니다.
+                    상품의 정확한 상태를 확인할 수 있도록 사진을 함께 보내주시면 더 빠른 상담이 가능합니다.
+                    <span class="goods-guide-change-span1">※ 배송 상품에 문제가 있는 것으로 확인되면 배송비는 판매자가 부담합니다.</span>
+                </p>
+            </div>
+            <div class="goods-guide-change2">
+                <b class="goods-guide-b">02. 단순 변심, 주문 착오의 경우</b>
+                <p class="goods-guide-p2"><strong class="goods-guide-change-strong">신선/ 냉장 / 냉동 식품</strong>상품의
+                    특성상 재판매가 불가하여 단순 변심, 주문 착오, 주소 오입력 등 고객의 책임 있는 사유로 인한 교환 및 반품이 어려운 점 양해 부탁드립니다.
+                    상품에 따라 조금씩 맛이 다를 수 있으며, 개인의 기호에 따라 같은 상품도 다르게 느끼실 수 있습니다.<strong
+                            class="goods-guide-change-strong">유통기한 30일 이상 식품 (신선 / 냉장 / 냉동 제외) & 기타 상품 (뷰티
+                        제품, 생활용품)</strong>상품을 받은 날부터 7일 이내 반품 접수가 가능합니다. 직접 접수하시거나 고객행복센터로 문의해 주시기 바랍니다.
+                    <span class="goods-guide-change-span1">※ 단순 변심, 주문 착오, 주소 오입력 등 고객의 책임 있는 사유로 인한 교환 및 반품의 경우 고객님께서 왕복배송비 6,000원(배송비를 낸 경우 3,000원)을 부담하셔야 합니다.</span>
+                </p>
+            </div>
+            <div class="goods-guide-change2">
+                <b class="goods-guide-b">03. 교환·환불이 불가한 경우</b>
+                <p class="goods-guide-p2">다음에 해당하는 교환·환불 신청은 처리가 어려울 수 있으니 양해 부탁드립니다.
+
+                    <span class="goods-guide-change-span2">고객님의 책임 있는 사유로 상품이 멸실되거나 훼손된 경우
+                                    (단, 상품의 내용을 확인하기 위해 포장 등을 훼손한 경우는 제외)</span><span class="goods-guide-change-span2">고객님의 사용 또는 일부 소비로 상품의 가치가 감소한 경우</span><span
+                            class="goods-guide-change-span2">시간이 지나 다시 판매하기 곤란할 정도로 상품의 가치가 감소한 경우</span><span
+                            class="goods-guide-change-span2">복제가 가능한 상품의 포장이 훼손된 경우</span><span
+                            class="goods-guide-change-span2">고객님의 주문에 따라 개별적으로 생산되는 상품의 제작이 이미 진행된 경우</span><span
+                            class="goods-guide-change-span2">반품 신청 후 14일 내에 물품이 반환되지 않고 고객님과 연락이 되지 않는 경우</span>
+                </p>
+            </div>
+            <div class="goods-guide-change1">
+                <strong class="goods-change-strong1">주문 취소 안내</strong>
+                <p class="goods-change-p1"><strong class="goods-change-strong2">[마이컬리>주문내역]에서 직접 취소하실 수
+                    있습니다.</strong></p>
+                <button class="goods-close-button" type="button">닫기</button>
+            </div>
+            <div class="goods-guide-change2">
+                <b class="goods-guide-b">주문 취소 관련</b>
+                <p class="goods-guide-p2">주문 취소는 [주문완료] 상태일 때만 가능합니다.
+                    - [마이컬리>주문내역]에서 직접 취소하실 수 있으며, 부득이 직접 취소하시기 어려운 상황일 경우 고객센터로 문의해 주시기 바랍니다.
+                    - [배송준비중]부터는 상품의 출고가 완료되어 주문 취소가 불가하니, 반품으로 진행 부탁드립니다.(상품에 따라 반품이 불가할 수 있습니다). 도움이 필요하신
+                    경우 고객행복센터로 문의해 주시기 바랍니다.
+                    - 주문마감 시간에 임박할수록 취소 가능 시간이 짧아질 수 있습니다.
+                    - 일부 예약상품은 판매 시 안내된 취소 마감 기한 내에만 취소할 수 있습니다.
+                    - 미성년자 결제 시 법정대리인이 그 거래를 취소할 수 있습니다.</p>
+            </div>
+            <div class="goods-guide-change2">
+                <b class="goods-guide-b">결제 승인 취소 / 환불 관련</b>
+                <p class="goods-guide-p2">- 카드 환불은 카드사 정책에 따르며, 자세한 사항은 카드사에 문의해주세요.
+                    - 결제 취소 시, 사용하신 적립금과 쿠폰도 모두 복원됩니다.</p>
+            </div>
+            <div class="goods-guide-delivery">
+                <strong class="goods-change-strong1">배송관련 안내</strong>
+                <p class="goods-change-p1">배송 과정 중 기상 악화 및 도로교통 상황에 따라 부득이하게 지연 배송이 발생될 수 있습니다.</p>
+            </div>
+        </div>
+        <!-- 모달창 -->
+        <div class="review-modal" id="reviewModal">
+            <div class="modal-div1"></div>
+            <div class="modal-div2">
+                <div class="modal-div3">
+                    <div class="modal-div4">
+                        <header class="modal-header">
+                            <span class="modal-span1">사진 후기</span>
+                            <button class="modal-button1" onclick="closeModal()"> <!-- 닫기 버튼 -->
+                                <svg>
+                                    <g>
+                                        <path d="M26 26L6 6" stroke="#999" stroke-linecap="square"
+                                              stroke-width="0"></path>
+                                        <path d="M6 26L26 6" stroke="#999" stroke-linecap="square"
+                                              stroke-width="0"></path>
+                                    </g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M6.28431 5.58859L6.35355 5.64645L16 15.293L25.6464 5.64645C25.8417 5.45118 26.1583 5.45118 26.3536 5.64645C26.5271 5.82001 26.5464 6.08944 26.4114 6.28431L26.3536 6.35355L16.707 16L26.3536 25.6464C26.5488 25.8417 26.5488 26.1583 26.3536 26.3536C26.18 26.5271 25.9106 26.5464 25.7157 26.4114L25.6464 26.3536L16 16.707L6.35355 26.3536C6.15829 26.5488 5.84171 26.5488 5.64645 26.3536C5.47288 26.18 5.4536 25.9106 5.58859 25.7157L5.64645 25.6464L15.293 16L5.64645 6.35355C5.45118 6.15829 5.45118 5.84171 5.64645 5.64645C5.82001 5.47288 6.08944 5.4536 6.28431 5.58859Z"
+                                          fill="#999"></path>
+                                </svg>
+                            </button>
+                        </header>
+                        <div class="modal-div5">
+                            <div class="modal-div6">
+                                <div class="modal-div7"> <!-- 이미지 자리 -->
+                                    <span class="modal-span2">
+                                                <img class="modal-img" id="modalImage" src="" alt="">
+                                                <noscript></noscript>
+                                            </span>
+                                </div>
+                                <div class="modal-div8">
+                                    <div class="modal-div9"> <!-- 작성자 자리 -->
+                                        <span class="modal-span3" id="modal-writer">김**</span>
+                                    </div>
+                                    <div class="modal-div10"> <!-- 제목 자리 -->
+                                        <div class="modal-div11">
+                                            <span class="modal-span4" id="modal-title">제목</span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-div12"> <!-- 내용 자리 -->
+                                        <p class="modal-p" id="modal-content">내용</p>
+                                    </div>
+                                    <footer class="modal-footer"> <!-- 작성일 자리 -->
+                                        <span class="modal-span5" id="modal-createdAt">작성일</span>
+                                        <button class="modal-button2">
+                                            <span class="modal-span6"></span>
+                                            <span>도움돼요</span>
+                                        </button>
+                                    </footer>
+                                </div>
+                                <div class="modal-div13">
+                                    <button class="modal-button3"> <!-- 사진 목록보기 버튼 -->
+                                        <svg class="modal-svg1">
+                                            <mask>
+                                                <rect x="0.75" y="0.75" width="6.3" height="6.3" rx="1"></rect>
+                                            </mask>
+                                            <rect x="0.75" y="0.75" width="6.3" height="6.3" rx="1"
+                                                  stroke="#333" stroke-width="2.4"
+                                                  mask="url(#path-1-inside-1_101_10540)"></rect>
+                                            <mask>
+                                                <rect x="8.4502" y="0.75" width="6.3" height="6.3"
+                                                      rx="1"></rect>
+                                            </mask>
+                                            <rect x="8.4502" y="0.75" width="6.3" height="6.3" rx="1"
+                                                  stroke="#333" stroke-width="2.4"
+                                                  mask="url(#path-2-inside-2_101_10540)"></rect>
+                                            <mask>
+                                                <rect x="0.75" y="8.44995" width="6.3" height="6.3"
+                                                      rx="1"></rect>
+                                            </mask>
+                                            <rect x="0.75" y="8.44995" width="6.3" height="6.3" rx="1"
+                                                  stroke="#333" stroke-width="2.4"
+                                                  mask="url(#path-3-inside-3_101_10540)"></rect>
+                                            <mask>
+                                                <rect x="8.4502" y="8.44995" width="6.3" height="6.3"
+                                                      rx="1"></rect>
+                                            </mask>
+                                            <rect x="8.4502" y="8.44995" width="6.3" height="6.3" rx="1"
+                                                  stroke="#333" stroke-width="2.4"
+                                                  mask="url(#path-4-inside-4_101_10540)"></rect>
+                                        </svg>
+                                        사진 목록 보기
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" value="prev" class="modal-button4"> <!-- 이전 버튼 -->
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 1.5L2 22L22 42.5" stroke="#fff" stroke-width="2"></path>
+                                </svg>
+                            </button>
+                            <button type="button" value="next" class="modal-button5"> <!-- 다음 버튼 -->
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1.5L21 22L1 42.5" stroke="#fff" stroke-width="2"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="review" class="goods-review section">
+            <section class="goods-review-section">
+                <h2 aria-label="상품 후기" class="goods-review-h2">상품 후기</h2>
+                <div class="goods-review-div">
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/2729b52c-7216-4192-ba07-5db29fa4c6bf.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/2729b52c-7216-4192-ba07-5db29fa4c6bf.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/2729b52c-7216-4192-ba07-5db29fa4c6bf.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/2729b52c-7216-4192-ba07-5db29fa4c6bf.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/2729b52c-7216-4192-ba07-5db29fa4c6bf.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/e1bec6a2-a35f-472c-ac5f-1384d02391c7.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/afa9a9bb-0a9f-4932-abf6-ea1f0f52d757.jpg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <button class="goods-review-button">
+                                    <span>
+                                        <img src="https://img-cf.kurly.com/hdims/resize/%5E%3E240x%3E240/cropcenter/240x240/quality/85/src/shop/data/review/20241210/695a0be9-32d9-490c-9dfe-58c68ef69090.jpeg"
+                                             alt="상품 후기">
+                                    </span>
+                    </button>
+                    <a class="goods-review-a" href="#">
+                        <span class="goods-review-span">+더보기</span>
+                    </a>
+                </div>
+                <div>
+                    <div class="goods-review-count">
+                        <span class="goods-count-span">총&nbsp;<span th:text="${totalReviews}">0</span>개</span>
+                        <div class="goods-count-div">
+                            <button class="goods-count-button b1">추천순</button>
+                            <button class="goods-count-button b2">최근등록순</button>
+                        </div>
+                    </div>
+                    <div class="goods-notification">
+                        <div class="goods-notification-div">
+                            <span class="goods-notification-span">공지</span>
+                            <button class="goods-notification-button">[25년 1월 1주] 베스트 후기 선정 안내</button>
+                        </div>
+                        <p class="goods-notification-p">
+                            안녕하세요.
+
+                            컬리는 상품에 대한 고객 여러분의 생생한 의견을 듣고 더 나은 상품을 준비하기 위해 상품 후기 게시판을 운영하고 있습니다.
+                            또한 고객님들의 다양한 후기를 통해 상품을 구매하시는 데 도움이 되실 수 있도록 베스트 후기를 선정하고 있어요!
+
+                            그럼 1월 1주 차 베스트 후기 선정 결과를 알려드릴게요!
+
+                            [1월 1주 베스트 후기 선정 결과 ]
+
+                            ■ 베스트 후기: 총 100건 선정
+                            ■ 베스트 상품: 총 95개 선정
+
+                            ▶ 선정된 베스트 후기가 궁금하신가요? ✍️(◔◡◔)
+                            베스트 후기 Top5 상품을 공유해 드리니 상품 검색 후 작성된 후기를 만나보세요. (❁´◡`❁)
+
+                            1. [KF365] 숯불 오리지널 쪽갈비 450g
+                            2. [유얼거트] 플레인 그릭요거트 450g
+                            3. [도제] 리코타 치즈 딸기 산도
+                            4. [올마레] 춘천 국물 닭갈비 떡볶이
+                            5. [트루쿡] 북미산 월넛 실리콘 조리도구/조리도구함 14종 (택1)
+
+                            정성껏 후기를 작성해 주신 모든 고객님께 감사드립니다.
+                            Better Life for All. Kurly
+
+                            =====================================================================================
+                            ▶ 베스트 후기는 어떻게 선정될까요?
+                            └ 매주 수요일 지난주 월-일요일까지 작성해 주신 후기를 대상으로 선정하고 있어요!
+                            └ 상품에 좋았던 점, 아쉬웠던 점등 다른 고객님들이 구매에 참고할 수 있는 다양한 의견을 2장 이상에 사진과 함께 300자 이상 후기를 남겨주시면 후보가 되실 수 있어요!
+
+                            ※ 참여 및 중복 선정 제한등은 없습니다.
+
+
+                            → 베스트후기 선정된 고객님들께는 컬리 적립금 5,000원이 지급됩니다.
+                            =====================================================================================
+
+                        </p>
+                        <div class="goods-notification-div">
+                            <span class="goods-notification-span">공지</span>
+                            <button class="goods-notification-button">상품후기 적립금 정책 안내</button>
+                        </div>
+                        <p class="goods-notification-p">
+                            안녕하세요, 컬리입니다.
+                            2024년 상품후기 적립금 지급 정책 및 주문 취소·환불된 상품에 대한 후기를 안내드립니다. 후기 작성에 참고 부탁드립니다.
+
+                            ■ 상품후기 적립 안내
+                            1) 후기 작성 기한: 배송완료일로부터 30일 이내 작성 가능
+                            2) 동일 상품 적립 제한: 동일 상품(동일 옵션)에 대한 후기는 월 1회만 적립금 지급 (예시) 맑은 곰탕과 진한 곰탕은 각각 적립 가능, 동일
+                            상품(진한 곰탕) 작성 시 월 1회만 적립 가능
+                            3) 적립금 지급 시점: 작성 후 7일 이내 적립
+                            4) 후기 수정 시: 작성 당일 기준으로 적립금 지급 (이후 수정 시 영향 없음)
+                            5) 비공개 후기: 적립금 지급 불가
+
+                            ■ 적립금 지급 기준
+                            1) 사진 후기: 100원
+                            2) 글 후기: 50원
+                            3) 주간 베스트 후기로 선정 시: 5,000원 추가 적립
+                            4) 선정 건수: 최대 100건, 지급 일시: 매주 수요일까지 (공휴일의 경우 전 영업일 지급)
+                            5) 확인 방법: "금주의 베스트 후기 안내"에서 확인 가능
+
+                            ※ 유의 사항 ※
+                            - 주문 취소 또는 환불된 상품의 후기는 적립금이 회수되거나 삭제될 수 있으며, 적립금 지급 대상에서도 제외됩니다.
+                            - 또한 후기 내용이 아래에 해당하는 경우에는 검토 후 삭제 및 적립금 회수 조치 될 수 있습니다.
+
+                            ① 부적절한 내용: 욕설, 폭력적 표현, 음란성, 상업적 광고 등
+                            ② 부적합한 내용: 상품과 무관하거나 동일 문자/초성이 반복된 경우
+                            ③ 오해를 일으키는 내용: 상품 기능이나 효과에 대해 잘못된 정보를 포함한 경우
+                            ④ 권리 침해: 타인의 초상권이나 저작권을 침해한 이미지/영상 사용 시
+                            ⑤ 비정상적 작성: 부정한 방법으로 후기를 작성해 적립금을 취득한 경우
+
+                            안전하고 믿을 수 있는 후기를 위해 고객님의 협조를 부탁드립니다.
+                        </p>
+                    </div>
+                    <div class="goods-review-member" th:each="review : ${reviews}" data-deleted-at="#{{review.deletedAt}}">
+                        <div class="goods-member-div1">
+                            <div class="goods-member-div2">
+                                <span class="goods-member-span" th:text="${review.writer}">정**</span>
+                            </div>
+                        </div>
+                        <article class="goods-review-article">
+                            <div class="goods-article-div1">
+                                <div class="goods-article-div2">
+                                    <h3 class="goods-article-h3" th:text="${review.title}"></h3>
+                                </div>
+                                <p class="goods-article-p" th:text="${review.content}"></p>
+                                <div class="goods-article-div3" th:each="image : ${review.images}">
+                                    <button class="goods-article-button" th:data-index="${image.index}"
+                                            th:data-writer="${review.writer}"
+                                            th:data-title="${review.title}"
+                                            th:data-content="${review.content}"
+                                            th:data-createdAt="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}"
+                                            th:data-image-src="@{/kurly/image(index=${image.index})}"
+                                            onclick="openModal(this)">
+                                                    <span class="goods-article-span1">
+                                                        <span class="goods-article-span2">
+                                                            <img accept="image/*" class="goods-article-img1"
+                                                                 th:src="@{/kurly/image(index=${image.index})}"
+                                                                 alt="">
+                                                        </span>
+                                                        <img accept="image/*" class="goods-article-img2"
+                                                             th:src="@{/kurly/image(index=${image.index})}"
+                                                             alt="리뷰 이미지 썸네일">
+                                                    </span>
+                                    </button>
+                                </div>
+                                <footer class="goods-article-footer">
+                                    <div class="goods-footer-div">
+                                                <span class="goods-footer-span1"
+                                                      th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}"></span>
+                                    </div>
+                                    <button class="goods-footer-button">
+                                        <span class="ico goods-footer-span2"></span>
+                                        <span>도움돼요 29</span>
+                                    </button>
+                                    <a th:href="@{'/kurly/modify?index=' + ${review.index}}">수정</a>
+                                    <button class="review-delete-button" type="button" th:data-index="${review.index}">
+                                        삭제
+                                    </button>
+                                </footer>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="page-button-div1 review-navigation">
+                        <a class="page-button1 review-prev-button"
+                           th:classappend="${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? 'disabled' : ''}"
+                           th:href="@{${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? '' : '/kurly/index?reviewPage=' + (reviewPageVo.requestPage - 1) + '&inquiryPage=' + inquiryPageVo.requestPage}}">
+                            <div class="page-button-div2">이전</div>
+                        </a>
+                        <a class="page-button2 review-next-button"
+                           th:classappend="${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? 'disabled' : ''}"
+                           th:href="@{${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? '' : '/kurly/index?reviewPage=' + (reviewPageVo.requestPage + 1) + '&inquiryPage=' + inquiryPageVo.requestPage}}">
+                            <div class="page-button-div2">다음</div>
+                        </a>
+                        <div class="page-button-div3">
+                            <button class="goods-inquiry-button">
+                                <a class="goods-inquiry-span1" th:href="@{'/goods/review'}">후기쓰기</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div id="inquiry" class="goods-inquiry-div1">
+            <div class="goods-inquiry-div2">
+                <div class="goods-inquiry-div3">
+                    <button class="goods-inquiry-button">
+                        <a class="goods-inquiry-span1" th:href="@{'/goods/inquiry'}">문의하기</a>
+                    </button>
+                </div>
+                <div class="goods-inquiry-div4">
+                    <strong class="goods-inquiry-strong">상품 문의</strong>
+                    <ul class="goods-inquiry-ul">
+                        <li class="goods-inquiry-li">상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당
+                            게시판으로 이동될 수 있습니다.
+                        </li>
+                        <li class="goods-inquiry-li">배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이컬리 내
+                            <a href="https://www.kurly.com/mypage/inquiry/list" class="goods-inquiry-a">1:1
+                                문의</a>에 남겨주세요.
+                        </li>
+                    </ul>
+                </div>
+                <div id="inquiry-section">
+                    <table class="goods-inquiry-table">
+                        <thead class="goods-inquiry-thead">
+                        <tr class="goods-inquiry-tr1">
+                            <th class="title">제목</th>
+                            <th class="author">작성자</th>
+                            <th class="created-date">작성일</th>
+                            <th class="status">답변상태</th>
+                        </tr>
+                        </thead>
+                        <tbody class="goods-inquiry-tbody">
+                        <tr th:each="inquiry : ${inquiries}" class="goods-inquiry-tr2">
+                            <td class="clickable-row goods-inquiry-td" th:text="${inquiry.title}"
+                                onclick="toggleContent(this)"></td>
+                            <td class="goods-inquiry-td" th:text="${inquiry.writer}"></td>
+                            <td class="goods-inquiry-td"
+                                th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></td>
+                            <td class="goods-inquiry-td status" th:text="${inquiry.status}">답변완료</td>
+
+                        </tr>
+                        <!-- 각 제목에 대한 내용은 기본적으로 숨겨져 있다 -->
+                        <tr th:each="inquiry : ${inquiries}" id="content-[[${inquiry.id}]]"
+                            class="goods-inquiry-content" style="display: none">
+                            <td colspan="4" class="content-cell">
+                                <div th:text="${inquiry.content != null ? inquiry.content : '내용 없음'}"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="page-button-div1 inquiry-navigation">
+                    <a class="page-button1 inquiry-prev-button"
+                       th:classappend="${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? 'disabled' : ''}"
+                       th:href="@{${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? '' : '/kurly/index?inquiryPage=' + (inquiryPageVo.requestPage - 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                        <div class="page-button-div2">이전</div>
+                    </a>
+                    <a class="page-button2 inquiry-next-button"
+                       th:classappend="${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? 'disabled' : ''}"
+                       th:href="@{${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? '' : '/kurly/index?inquiryPage=' + (inquiryPageVo.requestPage + 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                        <div class="page-button-div2">다음</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div></div> <!-- 페이지 하단 사이트 정보 -->
+    <div></div> <!-- 페이지 제일 하단 상품 선택 라벨 -->
+    <span></span> <!-- 페이지 제일 하단 위로 가기 아이콘 -->
+</div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

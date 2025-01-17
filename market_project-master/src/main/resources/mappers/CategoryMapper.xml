@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.CategoryMapper">
+
+    <select id="selectCategories"
+            resultType="com.bhs.sssss.entities.CategoryEntity">
+        SELECT `category_id` AS `categoryId`,
+               `category_name` AS `categoryName`,
+               `category_img` AS `categoryImg`
+        FROM `kurly`.`categories`
+    </select>
+</mapper>

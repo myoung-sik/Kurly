@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/collection-groups/assets/styles/collection-groups.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/collection-groups/assets/scripts/collection-groups.js'}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main class="-spring" id="main">
+
+    <div class="top">
+        <div class="title search">
+            <span th:text="|'${param.keyword}'|"></span>
+            <span>에 대한 검색결과</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="content-box" th:if="${items.length != 0}">
+            <div class="filter">
+                <div class="top-area">
+                    <span class="text">필터</span>
+                    <button class="reset-button">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.78 3.96303C12.504 2.16973 10.4086 1 8.04 1C4.15192 1 1 4.15192 1 8.04C1 11.9281 4.15192 15.08 8.04 15.08C11.9281 15.08 15.08 11.9281 15.08 8.04" stroke="#ddd" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="round"></path>
+                            <path d="M14.4933 1L14.4933 4.52H10.9733" stroke="#ddd" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="round"></path>
+                        </svg>
+                        <span class="text">초기화</span>
+                    </button>
+                </div>
+                <div class="filter-area">
+                    <div class="filter-box">
+                        <button class="filter-button">
+                            <div class="title">카테고리</div>
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#999" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                <path d="M5 11L9 7L13 11" stroke="#999" stroke-width="1.2"></path>
+                            </svg>
+                        </button>
+                        <nav class="nav">
+                            <ul class="menu">
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">올해 마지막 컬리세일!</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">간편식·밀키트·샐러드</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">정육·가공육·계란</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">국·반찬·메인요리</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">과일·견과·쌀</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">베이커리</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">수산·해산·건어물</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">면·양념·오일</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">간식·과자·떡</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">생활용품·리빙</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="filter-box">
+                        <button class="filter-button">
+                            <div class="title">배송</div>
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#999" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                <path d="M5 11L9 7L13 11" stroke="#999" stroke-width="1.2"></path>
+                            </svg>
+                        </button>
+                        <nav class="nav">
+                            <ul class="menu">
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">샛별배송</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">판매자배송</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">설치배송</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="filter-box">
+                        <button class="filter-button">
+                            <div class="title">포장타입</div>
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#999" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                <path d="M5 11L9 7L13 11" stroke="#999" stroke-width="1.2"></path>
+                            </svg>
+                        </button>
+                        <nav class="nav">
+                            <ul class="menu">
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">상온</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">냉장</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">냉동</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="filter-box">
+                        <button class="filter-button">
+                            <div class="title">카테고리</div>
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#999" xmlns="http://www.w3.org/2000/svg" class="svg">
+                                <path d="M5 11L9 7L13 11" stroke="#999" stroke-width="1.2"></path>
+                            </svg>
+                        </button>
+                        <nav class="nav">
+                            <ul class="menu">
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">6,825원 미만</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">6,825원 ~ 9,990원</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">9,990원 ~ 13,900원</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#" class="link">
+                                        <div class="svg-container">
+                                            <button class="svg-button">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M23.5 12C23.5 18.3513 18.3513 23.5 12 23.5C5.64873 23.5 0.5 18.3513 0.5 12C0.5 5.64873 5.64873 0.5 12 0.5C18.3513 0.5 23.5 5.64873 23.5 12Z" stroke="#ddd" fill="none"></path>
+                                                    <path d="M7 12.6667L10.3846 16L18 8.5" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="text">13,900원 이상</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item-filter">
+                    <div class="total">총 192건</div>
+                    <ul class="filter-menu">
+                        <li class="filter-item">
+                            <a href="#" class="link">판매량순</a></li>
+                        <li class="filter-item">
+                            <a href="#" class="link">낮은 가격순</a></li>
+                        <li class="filter-item">
+                            <a href="#" class="link">높은 가격순</a></li>
+                    </ul>
+                </div>
+                <div class="item-container">
+                    <a th:href="@{/goods/detail (itemId=${item.getItemId()})}" class="item" th:each="item : ${items}">
+                        <div class="img-wrapper">
+                            <div class="wrapper2">
+                                <span class="wrapper3">
+                                    <img th:src="${item.getImageUrl()}" th:alt="${item.getItemTitle()}" class="image">
+                                </span>
+                                <div class="sticker-wrapper">
+                                    <div class="sticker-box">
+                                        <div class="sticker-box2">
+                                            <span><img th:src="${item.getSticker()}" alt="" class="sticker-image"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-wrapper">
+                            <button class="button" type="button">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.53516 2.70001H3.93316L5.76816 10.609H13.6482L15.2992 4.35901H4.86916M12.8582 14.933C13.0098 14.9375 13.1609 14.9115 13.3024 14.8566C13.4438 14.8017 13.5728 14.7189 13.6817 14.6132C13.7906 14.5075 13.8771 14.381 13.9363 14.2412C13.9954 14.1015 14.0258 13.9513 14.0258 13.7995C14.0258 13.6478 13.9954 13.4975 13.9363 13.3578C13.8771 13.218 13.7906 13.0915 13.6817 12.9858C13.5728 12.8801 13.4438 12.7974 13.3024 12.7424C13.1609 12.6875 13.0098 12.6615 12.8582 12.666C12.5634 12.6748 12.2836 12.798 12.0782 13.0096C11.8727 13.2213 11.7578 13.5046 11.7578 13.7995C11.7578 14.0944 11.8727 14.3778 12.0782 14.5894C12.2836 14.801 12.5634 14.9243 12.8582 14.933ZM6.49316 14.933C6.64484 14.9375 6.79589 14.9115 6.93735 14.8566C7.07881 14.8017 7.20781 14.7189 7.31669 14.6132C7.42558 14.5075 7.51214 14.381 7.57126 14.2412C7.63037 14.1015 7.66083 13.9513 7.66083 13.7995C7.66083 13.6478 7.63037 13.4975 7.57126 13.3578C7.51214 13.218 7.42558 13.0915 7.31669 12.9858C7.20781 12.8801 7.07881 12.7974 6.93735 12.7424C6.79589 12.6875 6.64484 12.6615 6.49316 12.666C6.19836 12.6748 5.91858 12.798 5.71315 13.0096C5.50773 13.2213 5.39283 13.5046 5.39283 13.7995C5.39283 14.0944 5.50773 14.3778 5.71315 14.5894C5.91858 14.801 6.19836 14.9243 6.49316 14.933Z"
+                                          stroke="#333333" stroke-linecap="square" stroke-linejoin="round"></path>
+                                </svg>
+                                담기
+                            </button>
+                        </div>
+                        <div class="desc-wrapper">
+                            <span class="delivery">샛별배송</span>
+                            <span class="title" th:text="${item.getItemTitle()}"></span>
+                            <p class="subtitle" th:text="${item.getSubTitle()}"></p>
+                            <label>
+                                <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
+                                <input type="hidden" class="item-status" name="item-status" th:value="${item.getPackaging()}">
+                            </label>
+                            <div class="discount-price">
+                                <div class="dimmed-price">
+                                    <span class="price-number" th:text="${item.getPrice()}"></span>
+                                    <span th:if="${!item.getPrice().isEmpty()}" class="won" th:text="원"></span>
+                                </div>
+                                <div class="discount">
+                                    <span class="discount-rate" th:text="${item.getDiscountRate()}"></span>
+                                    <span class="sales-price">
+                                        <span class="price-number" th:text="${item.getSalesPrice()}"></span>
+                                        <span class="won">원</span></span>
+                                </div>
+                            </div>
+                            <div class="review-count">
+                                <span class="svg-wrapper">
+                                <svg width="100%" height="100%" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <mask id="path-1-inside-1_1513_17755" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 2C1.89543 2 1 2.89543 1 4V8.67201C1 9.77658 1.89543 10.672 3 10.672H5.11212L6.33682 12.7653C6.5299 13.0954 7.00688 13.0954 7.19995 12.7653L8.42465 10.672H10.5C11.6046 10.672 12.5 9.77658 12.5 8.67201V4C12.5 2.89543 11.6046 2 10.5 2H3Z"></path></mask><path fill="#999"
+                                                                                                                                                                                                                                                                                                                                                                                                           d="M5.11212 10.672L5.97526 10.167L5.68564 9.67201H5.11212V10.672ZM6.33682 12.7653L5.47369 13.2703L5.47369 13.2703L6.33682 12.7653ZM7.19995 12.7653L6.33682 12.2604L6.33682 12.2604L7.19995 12.7653ZM8.42465 10.672V9.67201H7.85113L7.56152 10.167L8.42465 10.672ZM2 4C2 3.44772 2.44772 3 3 3V1C1.34315 1 0 2.34315 0 4H2ZM2 8.67201V4H0V8.67201H2ZM3 9.67201C2.44772 9.67201 2 9.22429 2 8.67201H0C0 10.3289 1.34315 11.672 3 11.672V9.67201ZM5.11212 9.67201H3V11.672H5.11212V9.67201ZM7.19995 12.2604L5.97526 10.167L4.24899 11.177L5.47369 13.2703L7.19995 12.2604ZM6.33682 12.2604C6.5299 11.9304 7.00688 11.9304 7.19995 12.2604L5.47369 13.2703C6.05291 14.2604 7.48386 14.2604 8.06309 13.2703L6.33682 12.2604ZM7.56152 10.167L6.33682 12.2604L8.06309 13.2703L9.28779 11.177L7.56152 10.167ZM10.5 9.67201H8.42465V11.672H10.5V9.67201ZM11.5 8.67201C11.5 9.22429 11.0523 9.67201 10.5 9.67201V11.672C12.1569 11.672 13.5 10.3289 13.5 8.67201H11.5ZM11.5 4V8.67201H13.5V4H11.5ZM10.5 3C11.0523 3 11.5 3.44772 11.5 4H13.5C13.5 2.34315 12.1569 1 10.5 1V3ZM3 3H10.5V1H3V3Z"
+                                                                                                                                                                                                                                                                                                                                                                                                           mask="url(#path-1-inside-1_1513_17755)"></path><circle fill="#999" cx="4.34998" cy="6.17871" r="0.75"></circle><circle fill="#999" cx="6.75" cy="6.17871" r="0.75"></circle><circle fill="#999" cx="9.15002" cy="6.17871" r="0.75"></circle></svg>
+                                </span>
+                                <span class="review-number">9,999+</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="page-container">
+                    <a class="move-first" th:href="@{'/collection-groups/search' (page=1, keyword=${param.keyword})}">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAHCAQAAABwkq/rAAAAHUlEQVR42mNgAIPi/8X/kWkwA8SE0UQIMJAsCKMBBzk27fqtkcYAAAAASUVORK5CYII=" alt="처음 페이지로 이동하기 아이콘">
+                    </a>
+                    <a class="move-prev" th:href="@{'/collection-groups/search' (page=${pageVo.requestPage == 1 ? 1 : pageVo.requestPage - 1}, keyword=${param.keyword})}">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAQAAABqrk9lAAAAGElEQVR42mNgAIPi/8X/4QwwE5PBQJADAAKSG3cyVhtXAAAAAElFTkSuQmCC" alt="이전 페이지로 이동하기 아이콘">
+                    </a>
+                    <a th:each="page : ${#numbers.sequence(pageVo.displayMinPage, pageVo.displayMaxPage)}"
+                       th:text="${page}"
+                       th:href="@{'/collection-groups/search' (page=${page}, keyword=${param.keyword})}"
+                       th:classappend="${page == pageVo.requestPage ? 'active' : 'normal'}"></a>
+                    <a class="move-next" th:href="@{'/collection-groups/search' (page=${pageVo.requestPage == pageVo.movableMaxPage ? pageVo.requestPage : pageVo.requestPage+1}, keyword=${param.keyword})}">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAQAAABqrk9lAAAAGUlEQVR42mMo/l/8nwECQEwCHEwGhAlRBgA2mht3SwgzrwAAAABJRU5ErkJggg==" alt="다음 페이지로 이동하기 아이콘">
+                    </a>
+                    <a class="move-last" th:href="@{'/collection-groups/search' (page=${pageVo.movableMaxPage}, keyword=${param.keyword})}">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAHCAQAAABwkq/rAAAAIElEQVR42mMo/l/8n4GBgQFGQ5kgDowmQZCwAMImhDkAb0k27Zcisn8AAAAASUVORK5CYII=" alt="마지막 페이지로 이동하기 아이콘">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="nothing" th:if="${items.length == 0}">
+            <div class="notice">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_368_6766)"><path d="M22.0732 43.1463C33.7116 43.1463 43.1463 33.7116 43.1463 22.0732C43.1463 10.4348 33.7116 1 22.0732 1C10.4348 1 1 10.4348 1 22.0732C1 33.7116 10.4348 43.1463 22.0732 43.1463Z" stroke="#e2e2e2" stroke-width="2" stroke-linecap="round"></path><path d="M47.8293 47.8291L37.2927 37.2925" stroke="#e2e2e2" stroke-width="2" stroke-linecap="round"></path></g><defs><clipPath id="clip0_368_6766"><rect width="48" height="48" fill="#fff"></rect></clipPath></defs>
+                </svg>
+                <span class="text">검색된 상품이 없습니다.<br>다른 검색어를 입력해 주세요.</span>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

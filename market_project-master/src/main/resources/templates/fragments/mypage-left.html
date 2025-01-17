@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:fragment="leftFragment" class="left">
+    <div class="top-info-section">
+        <div class="text-container">
+            <div class="hello">
+                <span class="text">반가워요!</span>
+            </div>
+            <div class="name">
+                <span class="text" th:text="|${member.getUserName()}님|"></span>
+            </div>
+        </div>
+        <div class="money">
+            <div class="item-container">
+                <div class="item-wrapper">
+
+                </div>
+                <div class="item-wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bookmark-section">
+        <div class="bookmark-title">
+            <span>자주찾는 메뉴</span>
+        </div>
+        <div class="bookmark-wrapper">
+            <a th:href="@{/mypage/pay-record}">
+                <button class="menu">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" fill="none"></rect><path d="M6 5C6 3.89543 6.89543 3 8 3H25C26.1046 3 27 3.89543 27 5V21C27 23.7614 24.7614 26 22 26H8C6.89543 26 6 25.1046 6 24V5Z" fill="#fff" stroke="#333" stroke-width="1.5"></path><path d="M10 9H22" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M10 13H18" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M10.5 19H16.5" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M18.1147 19H1V22C1 24.2091 2.79086 26 5 26H22L20.9008 25.7162C18.0662 24.9843 16.7336 21.7314 18.2399 19.2211C18.2983 19.1238 18.2281 19 18.1147 19Z" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <div class="text">
+                        <span>주문 내역</span>
+                    </div>
+                </button>
+            </a>
+            <a th:href="@{/cart/in}">
+                <button class="menu">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" fill="none"></rect><path d="M18.7774 10.9894C20.3717 10.7178 21.6939 11.0351 22.6123 9.97669C23.3273 9.03772 24.2413 8.11796 24 5C23.9226 4 23.556 3.22425 23.3273 2.61553C22.6265 2.54815 21.9538 2.54253 21.3208 2.59576C21.3094 2.59865 21.2934 2.59602 21.282 2.59891C19.37 2.77077 17.7842 3.4912 16.7372 4.69984C15.6909 5.90862 15.052 7.81652 15.8471 10.1332" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path><path d="M17.4521 9.41134L20.0311 6.13585" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="10.5" cy="8.5" r="5.75" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linejoin="round"></circle><path d="M2.11556 11.2485C1.96747 9.91565 3.01077 8.75 4.35179 8.75H23.6482C24.9892 8.75 26.0325 9.91565 25.8844 11.2485L24.5511 23.2485C24.4245 24.3879 23.4614 25.25 22.3149 25.25H5.68513C4.53864 25.25 3.5755 24.3879 3.44889 23.2485L2.11556 11.2485Z" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linejoin="round"></path><path d="M10 12V12C10 13.6569 11.3431 15 13 15L15 15C16.6569 15 18 13.6569 18 12V12" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <div class="text">
+                        <span>장바구니</span>
+                    </div>
+                </button>
+            </a>
+            <a>
+                <button class="menu">
+                    <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" transform="translate(0.666687)" fill="none"></rect><mask id="path-1-inside-1_4225_12593" fill="#fff"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.66669 3C2.00983 3 0.666687 4.34315 0.666687 6V23C0.666687 24.6569 2.00983 26 3.66669 26H6.66669C7.77126 26 8.66669 25.1046 8.66669 24C8.66669 25.1046 9.56212 26 10.6667 26H25.6667C27.3235 26 28.6667 24.6569 28.6667 23V6C28.6667 4.34315 27.3235 3 25.6667 3H10.6667C9.56212 3 8.66669 3.89543 8.66669 5C8.66669 3.89543 7.77126 3 6.66669 3H3.66669Z"></path></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M3.66669 3C2.00983 3 0.666687 4.34315 0.666687 6V23C0.666687 24.6569 2.00983 26 3.66669 26H6.66669C7.77126 26 8.66669 25.1046 8.66669 24C8.66669 25.1046 9.56212 26 10.6667 26H25.6667C27.3235 26 28.6667 24.6569 28.6667 23V6C28.6667 4.34315 27.3235 3 25.6667 3H10.6667C9.56212 3 8.66669 3.89543 8.66669 5C8.66669 3.89543 7.77126 3 6.66669 3H3.66669Z" fill="#fff"></path><path d="M10.1667 24C10.1667 23.1716 9.49511 22.5 8.66669 22.5C7.83826 22.5 7.16669 23.1716 7.16669 24H10.1667ZM7.16669 5C7.16669 5.82843 7.83826 6.5 8.66669 6.5C9.49511 6.5 10.1667 5.82843 10.1667 5H7.16669ZM2.16669 6C2.16669 5.17157 2.83826 4.5 3.66669 4.5V1.5C1.18141 1.5 -0.833313 3.51472 -0.833313 6H2.16669ZM2.16669 23V6H-0.833313V23H2.16669ZM3.66669 24.5C2.83826 24.5 2.16669 23.8284 2.16669 23H-0.833313C-0.833313 25.4853 1.18141 27.5 3.66669 27.5V24.5ZM6.66669 24.5H3.66669V27.5H6.66669V24.5ZM7.16669 24C7.16669 24.2761 6.94283 24.5 6.66669 24.5V27.5C8.59968 27.5 10.1667 25.933 10.1667 24H7.16669ZM10.6667 24.5C10.3905 24.5 10.1667 24.2761 10.1667 24H7.16669C7.16669 25.933 8.73369 27.5 10.6667 27.5V24.5ZM25.6667 24.5H10.6667V27.5H25.6667V24.5ZM27.1667 23C27.1667 23.8284 26.4951 24.5 25.6667 24.5V27.5C28.152 27.5 30.1667 25.4853 30.1667 23H27.1667ZM27.1667 6V23H30.1667V6H27.1667ZM25.6667 4.5C26.4951 4.5 27.1667 5.17157 27.1667 6H30.1667C30.1667 3.51472 28.152 1.5 25.6667 1.5V4.5ZM10.6667 4.5H25.6667V1.5H10.6667V4.5ZM10.1667 5C10.1667 4.72386 10.3905 4.5 10.6667 4.5V1.5C8.73369 1.5 7.16669 3.067 7.16669 5H10.1667ZM6.66669 4.5C6.94283 4.5 7.16669 4.72386 7.16669 5H10.1667C10.1667 3.067 8.59968 1.5 6.66669 1.5V4.5ZM3.66669 4.5H6.66669V1.5H3.66669V4.5Z" fill="#333" mask="url(#path-1-inside-1_4225_12593)"></path><circle cx="8.66669" cy="9.5" r="1" fill="#333"></circle><circle cx="8.66669" cy="14.5" r="1" fill="#333"></circle><circle cx="8.66669" cy="19.5" r="1" fill="#333"></circle></svg>
+                    <div class="text">
+                        <span>쿠폰</span>
+                    </div>
+                </button>
+            </a>
+            <a th:href="@{/mypage/pick}">
+                <button class="menu">
+                    <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" transform="translate(0.333313)"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M25.4195 5.98883C22.8677 3.33706 18.7321 3.33706 16.1817 5.98883L14.3328 7.90876L12.4852 5.98883C9.93345 3.33706 5.79786 3.33706 3.24608 5.98883C0.695724 8.63911 0.695724 12.9368 3.24608 15.5885L5.09362 17.5085L13.6709 25.0822C14.049 25.4161 14.6166 25.4161 14.9947 25.0822L23.5719 17.5085L25.4195 15.5885C27.9713 12.9368 27.9713 8.63911 25.4195 5.98883Z" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                    <div class="text">
+                        <span>찜한 상품</span>
+                    </div>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="menu-info-section">
+        <div class="section">
+            <div class="menu-title">내 정보관리</div>
+            <a href="#" class="menu">
+                <div class="text">배송지 관리</div>
+            </a>
+            <a th:href="@{/mypage/info}" class="menu">
+                <div class="text">개인정보 수정</div>
+            </a>
+        </div>
+        <div class="section">
+            <div class="menu-title">쇼핑</div>
+            <a href="#" class="menu">
+                <div class="text">상품 후기</div>
+            </a>
+            <a href="#" class="menu">
+                <div class="text">상품 문의</div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

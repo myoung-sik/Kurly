@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/index.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/index.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/itemBox.js'}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main class="-spring" id="main">
+    <div class="banner-container">
+        <div class="slide-wrapper">
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/131968da-22da-41c4-a372-8dfc845118f5.png">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/3b5831bf-97bf-44eb-a79c-be93a76a7f8b.png">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/6cbc3016-a65f-4575-ab8a-4b237cb89201.png">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/5d14a1fd-4013-4326-a065-ffc3ea98f86d.jpg">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/13d6b3a7-064b-45f7-9cfe-b324a02feba9.jpg">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/4451413e-018a-47aa-9f19-6fb7792435ff.jpg">
+            </div>
+            <div class="slide">
+                <img alt="메인배너" src="https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/6bfcbd20-a39f-4e0a-9ee8-8e9ce71d9444.jpg">
+            </div>
+
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/itembox1 :: itembox1Fragment (items=${items}, title='👑올해 첫 칼리픽특가!', subtitle='놓치지 말고 담아가세요')}"></div>
+
+    <div th:replace="~{fragments/itembox2 :: itembox2Fragment (items=${items})}"></div>
+
+    <div class="add">
+        <a href="#" class="link">
+            <span><img alt="" src="https://product-image.kurly.com/hdims/resize/%3E1050x%3E140/quality/85/src/banner/random-band/pc/img/f1464942-8cad-4513-9756-1d0692c622d5.jpg" decoding="async" data-nimg="fill" class="img"></span>
+        </a>
+    </div>
+
+    <div th:replace="~{fragments/itembox1 :: itembox1Fragment (items=${items}, title='✨놓치면 후회할 가격', subtitle='')}"></div>
+
+    <div th:replace="~{fragments/itembox3 :: itembox3Fragment (items=${items})}"></div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

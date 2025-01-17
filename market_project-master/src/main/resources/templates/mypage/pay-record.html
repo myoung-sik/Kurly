@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{'/mypage/assets/styles/info.css'}">
+    <link type="text/css" rel="stylesheet" href="/pay/assets/styles/pay-record.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script th:if="${member == null}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main id="main">
+    <div th:replace="~{fragments/mypage-left :: leftFragment}"></div>
+
+    <div class="right">
+        <div id="pay-record" th:if="${member != null}">
+            <div></div>
+            <div class="pay-record-box">
+                <div class="record-text-container">
+                    <div class="text-cover">
+                        <h2 class="_text">주문 내역</h2>
+                    </div>
+                </div>
+                <div class="load-container">
+                    <div class="item-record-container">
+                        <div class="box-bottom"></div>
+                        <div class="no-item-container" th:if="${items == null or items.isEmpty()}">
+                            <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; position: relative; max-width: 100%;">
+                            <span style="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; max-width: 100%;">
+                                <img alt="" aria-hidden="true"
+                                 src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2764%27%20height=%2764%27/%3e"
+                                 style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0;">
+                            </span>
+                            <img alt="Error"
+                             src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjUiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NSA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zMi40OTk5IDYwQzQ3Ljk2MzkgNjAgNjAuNDk5OSA0Ny40NjQgNjAuNDk5OSAzMkM2MC40OTk5IDE2LjUzNiA0Ny45NjM5IDQgMzIuNDk5OSA0QzE3LjAzNiA0IDQuNDk5OTkgMTYuNTM2IDQuNDk5OTkgMzJDNC40OTk5OSA0Ny40NjQgMTcuMDM2IDYwIDMyLjQ5OTkgNjBaTTM0Ljk1MzEgMTYuNTMzOUgyOS42MTk3VjM2LjgwMDVIMzQuOTUzMVYxNi41MzM5Wk0zNC45NTMxIDQ3LjQ2NjFIMjkuNjE5N1Y0Mi4xMzI4SDM0Ljk1MzFWNDcuNDY2MVoiIGZpbGw9IiNDQkQxRDciLz4KPC9zdmc+Cg=="
+                             decoding="async" data-nimg="intrinsic"
+                             style="position: absolute; inset: 0; box-sizing: border-box; padding: 0; border: none; margin: auto; display: block; width: 0; height: 0; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
+                            </span>
+                            <p class="no-record-text">
+                                주문 내역이 없습니다.</p>
+                        </div>
+                        <div class="item-container" th:if="${items != null and !#lists.isEmpty(items)}" th:each="entry : ${items}">
+                            <div class="purchase-day">
+                                <div class="purchase-day-text">
+                                    <p class="_text" th:text="|${#temporals.format(entry.key, 'yyyy-MM-dd HH:mm:ss')}|">2025-01-08</p>
+                                    <div class="total-price-text">
+                                        <p class="_text" th:text="|총금액 : ${#numbers.formatInteger(entry.value[0].totalPrice, 3, 'COMMA')}원|"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                            <div class="item" th:each="item : ${entry.value}">
+                                <div class="item-box">
+                                    <a href="#">
+                                        <img th:src="${item.getItemImage()}" th:alt="${item.getPayItemName()}" class="img">
+                                    </a>
+                                    <div class="item-detail">
+                                        <div class="delivery">
+                                            <p class="_text">샛별배송</p>
+                                        </div>
+                                        <a href="#">
+                                            <p class="_text" th:text="${item.getPayItemName()}"></p>
+                                        </a>
+                                        <div class="item-price-container">
+                                            <p class="item-price" th:text="|${#numbers.formatInteger(item.getPayItemPrice(), 3, 'COMMA')} 원|"></p>
+                                            <div class="line"></div>
+                                            <p class="item-quantity" th:text="|${item.getPayQuantity()} 개|"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

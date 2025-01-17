@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>칼리 - 마켓칼리</title>
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/admin/assets/styles/admin.css'}">
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/admin/assets/scripts/admin.js'}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script th:if="${member.isAdmin() != true}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+
+<main class="-spring" id="main" th:if="${member.isAdmin()}">
+
+    <div class="left">
+        <div class="top-info-section">
+            <div class="text-container">
+                <div class="hello">
+                    <span class="text">반가워요!</span>
+                </div>
+                <div class="name">
+                    <span class="text" th:text="|${member.getUserName()}님|"></span>
+                </div>
+            </div>
+            <div class="money">
+                <div class="item-container">
+                    <div class="item-wrapper">
+
+                    </div>
+                    <div class="item-wrapper">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bookmark-section">
+            <div class="bookmark-title">
+                <span>자주찾는 메뉴</span>
+            </div>
+            <div class="bookmark-wrapper">
+                <button class="menu">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" fill="none"></rect><path d="M6 5C6 3.89543 6.89543 3 8 3H25C26.1046 3 27 3.89543 27 5V21C27 23.7614 24.7614 26 22 26H8C6.89543 26 6 25.1046 6 24V5Z" fill="#fff" stroke="#333" stroke-width="1.5"></path><path d="M10 9H22" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M10 13H18" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M10.5 19H16.5" stroke="#333" stroke-width="1.5" stroke-linecap="round"></path><path d="M18.1147 19H1V22C1 24.2091 2.79086 26 5 26H22L20.9008 25.7162C18.0662 24.9843 16.7336 21.7314 18.2399 19.2211C18.2983 19.1238 18.2281 19 18.1147 19Z" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <div class="text">
+                        <a th:href="@{/admin/}">멤버 관리</a>
+                    </div>
+                </button>
+                <button class="menu">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" fill="none"></rect><path d="M18.7774 10.9894C20.3717 10.7178 21.6939 11.0351 22.6123 9.97669C23.3273 9.03772 24.2413 8.11796 24 5C23.9226 4 23.556 3.22425 23.3273 2.61553C22.6265 2.54815 21.9538 2.54253 21.3208 2.59576C21.3094 2.59865 21.2934 2.59602 21.282 2.59891C19.37 2.77077 17.7842 3.4912 16.7372 4.69984C15.6909 5.90862 15.052 7.81652 15.8471 10.1332" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"></path><path d="M17.4521 9.41134L20.0311 6.13585" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="10.5" cy="8.5" r="5.75" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linejoin="round"></circle><path d="M2.11556 11.2485C1.96747 9.91565 3.01077 8.75 4.35179 8.75H23.6482C24.9892 8.75 26.0325 9.91565 25.8844 11.2485L24.5511 23.2485C24.4245 24.3879 23.4614 25.25 22.3149 25.25H5.68513C4.53864 25.25 3.5755 24.3879 3.44889 23.2485L2.11556 11.2485Z" fill="#fff" stroke="#333" stroke-width="1.5" stroke-linejoin="round"></path><path d="M10 12V12C10 13.6569 11.3431 15 13 15L15 15C16.6569 15 18 13.6569 18 12V12" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <div class="text">
+                        <span>상품 관리</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="menu-info-section">
+            <div class="section">
+                <div class="menu-title">멤버 관리</div>
+                <a th:href="@{/admin/}" class="menu">
+                    <div class="text">멤버 정보 조회</div>
+                </a>
+                <a th:href="@{/admin/}" class="menu">
+                    <div class="text">멤버 정보 관리</div>
+                </a>
+                <a href="#" class="menu">
+                    <div class="text">로그인 기록</div>
+                </a>
+            </div>
+            <div class="section">
+                <div class="menu-title">상품 관리</div>
+                <a href="#" class="menu">
+                    <div class="text">상품 등록</div>
+                </a>
+                <a href="#" class="menu">
+                    <div class="text">상품 수정</div>
+                </a>
+                <a href="#" class="menu">
+                    <div class="text">상품 후기</div>
+                </a>
+                <a href="#" class="menu">
+                    <div class="text">상품 문의</div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="title">
+            <h2 class="text">관리자 페이지</h2>
+        </div>
+        <div class="content-container">
+            <div class="content-box">
+                <h4 class="subtitle">비밀번호 재확인</h4>
+                <p class="desc">관리자 기능을 사용하기 위해 비밀번호를 다시 한번 확인해주세요.</p>
+                <form action="#" id="confirm-form">
+                    <div class="input-container">
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="userId" class="label">아이디</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="userId" class="label">
+                                    <input readonly type="text" id="userId" class="userId" name="userId" th:value="${member.getId()}">
+                                </label>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box">
+                            <div class="name-box">
+                                <label for="password" class="label">비밀번호</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="password" class="label">
+                                    <input autocomplete="off" type="password" id="password" class="password" name="password" placeholder="현재 비밀번호를 입력해주세요">
+                                </label>
+                                <span class="-warning"></span>
+                            </div>
+                            <div class="empty-box"></div>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="button --obj-button --color-primary">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>

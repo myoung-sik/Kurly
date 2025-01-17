@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.ReviewMapper">
+    <insert id="insertReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
+        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `created_at`, `updated_at`,
+        `deleted_at`)
+        VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{createdAt}, #{updatedAt}, #{deletedAt})
+    </insert>
+
+    <select id="selectAllReviews" resultType="com.bhs.sssss.entities.ReviewEntity">
+        SELECT *
+        FROM `kurly`.`review`
+        WHERE `deleted_at` IS NULL
+        ORDER BY created_at DESC;
+    </select>
+
+    <select id="countReviews" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`review`
+        WHERE `deleted_at` IS NULL;
+    </select>
+
+    <select id="selectReviewsByPage" resultType="com.bhs.sssss.entities.ReviewEntity">
+        SELECT *
+        FROM `kurly`.`review`
+        WHERE `deleted_at` IS NULL
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount};
+    </select>
+
+    <update id="updateReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
+        UPDATE `kurly`.`review`
+        SET `title` = #{title},
+        `content` = #{content},
+        `image_index` = #{imageIndex},
+        `updated_at` = NOW()
+        WHERE `index` = #{index} AND `deleted_at` IS NULL;
+    </update>
+
+    <update id="deleteReview">
+        UPDATE `kurly`.`review`
+        SET `deleted_at` = NOW()  <!-- 현재 시간으로 삭제 일시 업데이트 -->
+        WHERE `index` = #{index}
+        AND `deleted_at` IS NULL; <!-- 이미 삭제된 데이터는 제외 -->
+    </update>
+
+    <!-- 복구 처리 -->
+    <update id="restoreReview">
+        UPDATE `kurly`.`review`
+        SET `deleted_at` = NULL  <!-- 삭제 일시를 NULL로 설정하여 복구 -->
+        WHERE `index` = #{index};
+    </update>
+
+    <!-- 특정 리뷰 조회 -->
+    <select id="selectReviewByIndex" resultType="com.bhs.sssss.entities.ReviewEntity">
+        SELECT *
+        FROM `kurly`.`review`
+        WHERE `index` = #{index} AND `deleted_at` IS NULL
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.InquiryMapper">
+    <insert id="insertInquiry" parameterType="com.bhs.sssss.entities.InquiryEntity">
+        INSERT INTO `kurly`.`inquiry` (`writer`, `title`, `content`, `status`, `created_at`, `updated_at`, `deleted_at`)
+        VALUES (#{writer}, #{title}, #{content}, #{status}, #{createdAt}, #{updatedAt}, #{deletedAt})
+    </insert>
+
+    <select id="selectAllInquiries" resultType="com.bhs.sssss.entities.InquiryEntity">
+        SELECT *
+        FROM `kurly`.`inquiry`
+        ORDER BY created_at DESC;
+    </select>
+
+    <select id="countInquiries" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`inquiry`
+    </select>
+
+    <select id="selectInquiriesByPage" resultType="com.bhs.sssss.entities.InquiryEntity">
+        SELECT *
+        FROM `kurly`.`inquiry`
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <update id="updateInquiry" parameterType="com.bhs.sssss.entities.InquiryEntity">
+        UPDATE `kurly`.`inquiry`
+        SET `title`      = #{title},
+            `content`    = #{content},
+            `updated_at` = NOW()
+        WHERE `index` = #{index}
+    </update>
+
+    <delete id="deleteInquiry" parameterType="_int">
+        DELETE FROM `test`.`inquiry`
+        WHERE `index` = #{inquiryId}
+    </delete>
+
+</mapper>

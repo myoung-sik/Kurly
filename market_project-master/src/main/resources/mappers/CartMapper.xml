@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bhs.sssss.mappers.CartMapper">
+
+    <insert id="insertCart"
+            parameterType="com.bhs.sssss.entities.CartEntity">
+        INSERT INTO `kurly`.`carts` (`member_id`, `cart_id`, `item_id`, `item_name`, `cost_price`, `item_price`, `quantity`, `is_checked`, `is_deleted`, `status`, `item_image`)
+        VALUES (#{memberId}, #{cartId}, #{itemId}, #{itemName}, #{costPrice} ,#{itemPrice}, #{quantity}, #{isChecked}, #{isDeleted}, #{status}, #{itemImage})
+    </insert>
+
+    <select id="selectCartByIndex"
+            resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index`      AS `index`,
+               `member_id`  AS `memberId`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`
+        FROM `kurly`.`carts`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+    <select id="selectCartByPrice"
+            resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index` AS `index`,
+               `member_id`  AS `memberId`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`
+        FROM `kurly`.`carts`
+        WHERE `item_id` = #{itemId}
+        LIMIT 1
+    </select>
+    <select id="selectAllCarts"
+            resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index` AS `index`,
+               `member_id`  AS `memberId`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`,
+               `is_checked` AS `isChecked`,
+               `is_deleted` AS `isDeleted`,
+               `status`     AS `status`,
+               `item_image` AS `itemImage`
+        FROM `kurly`.`carts`
+        WHERE `is_deleted` IS FALSE
+
+    </select>
+
+    <select id="selectCartsByMemberId"
+            resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index` AS `index`,
+               `member_id`  AS `memberId`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`,
+               `is_checked` AS `isChecked`,
+               `is_deleted` AS `isDeleted`,
+               `status`     AS `status`,
+               `item_image` AS `itemImage`
+        FROM `kurly`.`carts`
+        WHERE `member_id` = #{memberId} AND `is_deleted` IS FALSE
+
+    </select>
+
+    <update id="updateCart" parameterType="_int">
+        UPDATE `kurly`.`carts`
+        SET `quantity` = #{quantity}
+        WHERE `index` = #{index}
+
+        LIMIT 1
+    </update>
+    <update id="updateCheckStatus" parameterType="map">
+        UPDATE `kurly`.`carts`
+        SET is_checked = #{isChecked}
+        WHERE `index` = #{index}
+    </update>
+
+
+    <update id="updateCartByQuantity" parameterType="com.bhs.sssss.entities.CartEntity">
+        UPDATE `kurly`.`carts`
+        SET `quantity` = #{quantity}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <select id="countActiveItems" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`carts`
+        WHERE `is_deleted` = 0
+          AND `member_id` = #{id}
+    </select>
+    <select id="countCheckedItems" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`carts`
+        WHERE `is_deleted` = 0
+          AND `is_checked` = 1
+          AND `member_id` = #{id}
+    </select>
+    <select id="selectCountCartsByMemberId"
+            resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`carts`
+        WHERE `member_id` = #{memberId}
+          AND `is_deleted` = 0
+    </select>
+
+    <select id="selectCartByIdAndMemberId"
+            resultType="com.bhs.sssss.entities.CartEntity">
+        SELECT `index`      AS `index`,
+               `member_id`  AS `memberId`,
+               `cart_id`    AS `cartId`,
+               `item_id`    AS `itemId`,
+               `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
+               `item_price` AS `itemPrice`,
+               `quantity`   AS `quantity`,
+               `is_checked` AS `isChecked`,
+               `is_deleted` AS `isDeleted`,
+               `status`     AS `status`,
+               `item_image` AS `itemImage`
+        FROM `kurly`.`carts`
+        WHERE `item_id` = #{itemId}
+          AND `member_id` = #{id}
+          AND `is_deleted` = 0
+        LIMIT 1
+    </select>
+
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM `kurly`.`carts`
+        WHERE `index` = #{index}
+    </delete>
+
+    <delete id="updateDeletedStatusForItems" parameterType="list">
+        DELETE FROM `kurly`.carts
+        WHERE `index` IN
+        <foreach item="index" collection="indices" open="(" separator="," close=")">
+            #{index}
+        </foreach>
+        AND `is_checked` = 1
+    </delete>
+
+</mapper>

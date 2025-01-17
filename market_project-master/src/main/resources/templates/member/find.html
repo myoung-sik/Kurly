@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
+    <link rel="stylesheet" type="text/css" th:href="@{'/member/assets/styles/find.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
+    <script defer type="text/javascript" th:src="@{'/member/assets/scripts/find.js'}"></script>
+    <script th:if="${session.member != null}">
+        alert('올바르지 않은 접근입니다.');
+        if(history.length > 1){
+            history.back();
+        } else {
+            window.close();
+        }
+    </script>
+    <title>칼리 - 마켓칼리</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+<main id="main">
+    <div class="title">
+        <span class="title-text" th:text="${type} == 'id' ? '아이디 찾기' : '비밀번호 찾기'"></span>
+    </div>
+    <div class="find-container">
+        <div class="btn-container">
+            <button type="button" class="contact">휴대폰 인증</button>
+            <button type="button" class="email">이메일 인증</button>
+        </div>
+        <form id="find-form">
+            <div class="find-wrapper">
+                <div class="label-container name">
+                    <label class="label">
+                        <span>이름</span>
+                        <input type="text" class="input-name" name="name" placeholder="이름을 입력해주세요">
+                    </label>
+                    <span class="-warning"></span>
+                </div>
+                <div class="label-container id">
+                    <label class="label id">
+                        <span>아이디</span>
+                        <input type="text" class="input-id" name="memberId" placeholder="아이디를 입력해주세요">
+                    </label>
+                    <span class="-warning"></span>
+                </div>
+                <div class="label-container">
+                    <label class="label">
+                        <span>이메일</span>
+                        <input type="text" class="input-email" name="email" placeholder="이메일을 입력해주세요" autocomplete="off">
+                    </label>
+                    <span class="-warning"></span>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="find --obj-button --color-disabled" type="submit">
+                    <span class="text">확인</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<div class="result-container">
+    <div class="result-page">
+        <div class="content-box" rel="pw">
+            <p class="first" th:if="${type} == 'pw'">
+                <span class="email"></span>
+                으로 <br> 비밀번호 재설정 메일이 발송되었어요.
+            </p>
+            <p class="second">
+                5분 후에도 메일이 오지 않는다면 <br> 스팸함을 확인해 주세요.
+            </p>
+        </div>
+        <div class="content-box" rel="id">
+            <p class="first" th:if="${type} == 'id'">
+                <span class="name"></span>
+                님의 <br> 아이디는 다음과 같습니다.
+            </p>
+            <b class="second id">
+
+            </b>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
+</body>
+</html>
