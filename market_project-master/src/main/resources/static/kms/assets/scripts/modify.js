@@ -9,18 +9,19 @@ document.addEventListener("DOMContentLoaded", function () {
         $imageInput.click();
     });
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get('index');
+    const itemId = urlParams.get('itemId');
+
+    if (index === null) {
+        alert("잘못된 요청입니다.");
+        return;
+    }
+
     $modifyForm.onsubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
-        const urlParams = new URLSearchParams(window.location.search);
-        const index = urlParams.get('index');
-
-        if (!index) {
-            alert("잘못된 요청입니다.");
-            return;
-        }
-
         formData.append('index', index);
         formData.append('title', $title.value);
         formData.append('content', $content.value);
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const response = JSON.parse(xhr.responseText);
                     if (response.result === 'success') {
                         alert('수정이 완료되었습니다.');
-                        window.location.href = '/goods/index';
+                        window.location.href = `/goods/index?itemId=${itemId}`;
                     } else {
                         alert('수정에 실패했습니다.');
                     }

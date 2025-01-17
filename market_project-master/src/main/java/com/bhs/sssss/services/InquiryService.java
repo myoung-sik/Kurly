@@ -42,5 +42,18 @@ public class InquiryService {
                 pageVo.offsetCount);
         return Pair.of(pageVo, inquiries);
     }
+
+    public Pair<PageVo, List<InquiryEntity>> getInquiriesByItemId(String itemId, int inquiryPage) {
+        // 전체 문의 수 조회
+        int totalInquiries = inquiryMapper.countInquiriesByItemId(itemId);
+
+        // 페이지 정보 생성
+        PageVo pageVo = new PageVo(inquiryPage, totalInquiries);
+
+        // 페이징된 문의 목록 조회
+        List<InquiryEntity> inquiries = inquiryMapper.selectInquiriesByItemId(itemId, pageVo.countPerPage, pageVo.offsetCount);
+
+        return Pair.of(pageVo, inquiries);
+    }
 }
 

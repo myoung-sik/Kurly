@@ -45,5 +45,4 @@ public interface ItemMapper {
 
     int deleteItem(int index);
 
-    ItemEntity getItemByItemId(@Param("itemId") String itemId);
 }

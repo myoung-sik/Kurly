@@ -26,9 +26,7 @@
                     <div class="detail-div4">
                         <div class="detail-div5">
                                         <span class="detail-span">
-                                            <img class="detail-image"
-                                                 th:src="@{${item.getImageUrl()}}"
-                                                 alt="">
+                                            <img class="detail-image" th:src="@{${item.imageUrl}}" alt="">
                                         </span>
                         </div>
                     </div>
@@ -37,23 +35,20 @@
         </div>
         <section class="goods-info">
             <div class="goods-subtit">샛별배송</div>
-            <label>
-                <input type="hidden" name="itemId" id="itemId" th:value="${item.getItemId()}">
-            </label>
             <div class="goods-tit">
-                <h1 class="goods-h1" th:text="${item.getItemTitle()}"></h1>
-                <h2 class="goods-h2" th:text="${item.getSubTitle()}"></h2>
+                <h1 class="goods-h1" th:text="${item.itemTitle}"></h1>
+                <h2 class="goods-h2" th:text="${item.subTitle}"></h2>
             </div>
             <h2 class="sale-price">
-                <span class="sale-price-span1" th:text="${item.getDiscountRate()}"></span>
-                <span class="sale-price-span2" th:text="${item.getSalesPrice()}"></span>
+                <span class="sale-price-span1" th:text="${item.discountRate}"></span>
+                <span class="sale-price-span2" th:text="${item.salesPrice}"></span>
                 <span class="sale-price-span3">원~</span>
             </h2>
             <span class="price">
-                            <span class="price-span" th:text="${item.getPrice()}"></span>
+                            <span class="price-span" th:text="${item.price}"></span>
                     </span>
             <a class="first-sale"
-               th:href="@{'/market-benefit'}">
+               href="https://www.kurly.com/shop/event/kurlyEventV2.php?lego=event/2023/0911/join/coupon">
                 <div class="sale-div">
                     <p class="sale-p">
                         첫 구매라면
@@ -84,20 +79,20 @@
                 <li class="goods-li">
                     <dt class="goods-dt">배송</dt>
                     <dd class="goods-dd">
-                        <p class="goods-p1" th:text="${item.getDelivery()}"></p>
+                        <p class="goods-p1" th:text="${item.delivery}">샛별배송</p>
                         <p class="goods-p2">23시 전 주문 시 수도권/충청 내일 아침 7시 전 도착 (그 외 지역 아침 8시 전 도착)</p>
                     </dd>
                 </li>
                 <li class="goods-li">
                     <dt class="goods-dt">판매자</dt>
                     <dd class="goods-dd">
-                        <p class="goods-p1" th:text="${item.getSeller()}"></p>
+                        <p class="goods-p1" th:text="${item.seller}"></p>
                     </dd>
                 </li>
                 <li class="goods-li">
                     <dt class="goods-dt">포장타입</dt>
                     <dd class="goods-dd">
-                        <p class="goods-p1" id="packaging" th:text="${item.getPackaging()}"></p>
+                        <p class="goods-p1" th:text="${item.packaging}"></p>
                         <p class="goods-p2">택배배송은 에코 포장이 스티로폼으로 대체됩니다.
                     </dd>
                 </li>
@@ -109,7 +104,7 @@
                         <dd class="select-dd">
                             <div class="select-div1" th:if="${item != null}">
                                 <div class="select-div2">
-                                    <span class="select-span1" th:text="${item.getItemTitle()}"></span>
+                                    <span class="select-span1" th:text="${item.itemTitle}"></span>
                                 </div>
                                 <div class="select-div3">
                                     <div class="select-div4">
@@ -118,8 +113,8 @@
                                         <button type="button" class="select-button2" id="increaseBtn"></button>
                                     </div>
                                     <div class="select-div6">
-                                        <span class="select-span2" th:data-price="${item.getPrice()}" th:text="${item.getPrice()}"></span>
-                                        <span class="select-span3" id="dcPrice" th:data-dcprice="${item.getSalesPrice()}" th:text="${item.getSalesPrice()}"></span>
+                                        <span class="select-span2" th:data-price="${item.price}" th:text="${item.price}"></span>
+                                        <span class="select-span3" id="dcPrice" th:data-dcprice="${item.salesPrice}" th:text="${item.salesPrice}">5,990</span>
                                         <span class="select-span4">원</span>
                                     </div>
                                 </div>
@@ -131,7 +126,7 @@
                     <div class="total-div1">
                         <div class="total-div2">
                             <span class="total-span1">총 상품 금액 :</span>
-                            <span class="total-span2" id="totalPrice" th:text="${item.getSalesPrice()}"></span>
+                            <span class="total-span2" id="totalPrice" th:text="${item.discountRate}"></span>
                             <span class="total-span3">원</span>
                         </div>
                     </div>
@@ -161,7 +156,7 @@
     <nav class="goods-nav">
         <ul class="goods-nav-ul">
             <li class="goods-nav-li">
-                <a class="goods-nav-a" href="#description">
+                <a class="goods-nav-a" th:href="@{'#description'}">
                     <span class="goods-nav-span">상품설명</span>
                 </a>
             </li>
@@ -190,15 +185,14 @@
                     <div class="goods-wrap">
                         <div class="goods-intro">
                             <div class="pic">
-                                <img th:src="@{${item.getDetailImage()}}"
-                                     alt="">
+                                <img th:src="@{${item.detailImage}}" alt="">
                             </div>
                             <div class="context last">
                                 <h3>
-                                    <small th:text="${item.getSubTitle()}"></small>
-                                    <span th:text="${item.getItemTitle()}"></span>
+                                    <small th:text="${item.subTitle}"></small>
+                                    <span th:text="${item.itemTitle}"></span>
                                 </h3>
-                                <p class="words" th:text="${item.getWords()}">
+                                <p class="words" th:text="${item.words}">
 
                                 </p>
                             </div>
@@ -210,7 +204,7 @@
                             </h3>
                             <div class="context last">
                                 <div class="pic">
-                                    <img th:src="@{${item.getKurlyCheck()}}"
+                                    <img th:src="@{${item.kurlyCheck}}"
                                          alt="">
                                 </div>
                             </div>
@@ -224,7 +218,7 @@
             <div class="blank"></div>
             <div class="goods-detail-image1">
                 <img class="more"
-                     th:src="@{${item.getDetailInfo()}}"
+                     th:src="@{${item.detailInfo}}"
                      alt="자세히보기 이미지">
             </div>
             <div class="goods-detail-image2">
@@ -713,16 +707,16 @@
                                             th:data-title="${review.title}"
                                             th:data-content="${review.content}"
                                             th:data-createdAt="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}"
-                                            th:data-image-src="@{/kurly/image(index=${image.index})}"
+                                            th:data-image-src="@{/goods/image(index=${image.index})}"
                                             onclick="openModal(this)">
                                                     <span class="goods-article-span1">
                                                         <span class="goods-article-span2">
                                                             <img accept="image/*" class="goods-article-img1"
-                                                                 th:src="@{/kurly/image(index=${image.index})}"
+                                                                 th:src="@{/goods/image(index=${image.index})}"
                                                                  alt="">
                                                         </span>
                                                         <img accept="image/*" class="goods-article-img2"
-                                                             th:src="@{/kurly/image(index=${image.index})}"
+                                                             th:src="@{/goods/image(index=${image.index})}"
                                                              alt="리뷰 이미지 썸네일">
                                                     </span>
                                     </button>
@@ -736,7 +730,7 @@
                                         <span class="ico goods-footer-span2"></span>
                                         <span>도움돼요 29</span>
                                     </button>
-                                    <a th:href="@{'/kurly/modify?index=' + ${review.index}}">수정</a>
+                                    <a th:href="@{/goods/modify(index = ${review.getIndex()}, itemId=${review.getItemId()})}">수정</a>
                                     <button class="review-delete-button" type="button" th:data-index="${review.index}">
                                         삭제
                                     </button>
@@ -747,17 +741,17 @@
                     <div class="page-button-div1 review-navigation">
                         <a class="page-button1 review-prev-button"
                            th:classappend="${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? 'disabled' : ''}"
-                           th:href="@{${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? '' : '/kurly/index?reviewPage=' + (reviewPageVo.requestPage - 1) + '&inquiryPage=' + inquiryPageVo.requestPage}}">
+                           th:href="@{/goods/index(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                             <div class="page-button-div2">이전</div>
                         </a>
                         <a class="page-button2 review-next-button"
                            th:classappend="${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? 'disabled' : ''}"
-                           th:href="@{${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? '' : '/kurly/index?reviewPage=' + (reviewPageVo.requestPage + 1) + '&inquiryPage=' + inquiryPageVo.requestPage}}">
+                           th:href="@{/goods/index(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                             <div class="page-button-div2">다음</div>
                         </a>
                         <div class="page-button-div3">
                             <button class="goods-inquiry-button">
-                                <a class="goods-inquiry-span1" th:href="@{'/goods/review'}">후기쓰기</a>
+                                <a class="goods-inquiry-span1" th:href="@{'/goods/review?itemId=' + ${item.getItemId()}}">후기쓰기</a>
                             </button>
                         </div>
                     </div>
@@ -815,12 +809,12 @@
                 <div class="page-button-div1 inquiry-navigation">
                     <a class="page-button1 inquiry-prev-button"
                        th:classappend="${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? 'disabled' : ''}"
-                       th:href="@{${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? '' : '/kurly/index?inquiryPage=' + (inquiryPageVo.requestPage - 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                       th:href="@{${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? '' : '/goods/index?inquiryPage=' + (inquiryPageVo.requestPage - 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
                         <div class="page-button-div2">이전</div>
                     </a>
                     <a class="page-button2 inquiry-next-button"
                        th:classappend="${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? 'disabled' : ''}"
-                       th:href="@{${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? '' : '/kurly/index?inquiryPage=' + (inquiryPageVo.requestPage + 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                       th:href="@{${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? '' : '/goods/index?inquiryPage=' + (inquiryPageVo.requestPage + 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
                         <div class="page-button-div2">다음</div>
                     </a>
                 </div>
@@ -831,6 +825,7 @@
     <div></div> <!-- 페이지 제일 하단 상품 선택 라벨 -->
     <span></span> <!-- 페이지 제일 하단 위로 가기 아이콘 -->
 </div>
+
 <div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

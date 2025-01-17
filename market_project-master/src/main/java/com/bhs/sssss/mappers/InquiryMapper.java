@@ -15,4 +15,8 @@ public interface InquiryMapper {
     List<InquiryEntity> selectAllInquiries();
 
     List<InquiryEntity> selectInquiriesByPage(@Param("limitCount") int limitCount, @Param("offsetCount") int offsetCount); // 페이징된 문의 조회
+
+    int countInquiriesByItemId(String itemId);
+
+    List<InquiryEntity> selectInquiriesByItemId(@Param("itemId") String itemId, @Param("offsetCount") int offsetCount, @Param("limitCount") int limitCount);
 }

@@ -4,9 +4,9 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bhs.sssss.mappers.ReviewMapper">
     <insert id="insertReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
-        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `created_at`, `updated_at`,
+        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `item_id`, `created_at`, `updated_at`,
         `deleted_at`)
-        VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{createdAt}, #{updatedAt}, #{deletedAt})
+        VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{itemId}, #{createdAt}, #{updatedAt}, #{deletedAt})
     </insert>
 
     <select id="selectAllReviews" resultType="com.bhs.sssss.entities.ReviewEntity">
@@ -32,11 +32,13 @@
 
     <update id="updateReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
         UPDATE `kurly`.`review`
-        SET `title` = #{title},
-        `content` = #{content},
-        `image_index` = #{imageIndex},
-        `updated_at` = NOW()
-        WHERE `index` = #{index} AND `deleted_at` IS NULL;
+        SET `title`       = #{title},
+            `content`     = #{content},
+            `image_index` = #{imageIndex},
+            `updated_at`  = NOW()
+        WHERE `index` = #{index}
+          AND `item_id` = #{itemId}
+          AND `deleted_at` IS NULL;
     </update>
 
     <update id="deleteReview">
@@ -58,5 +60,21 @@
         SELECT *
         FROM `kurly`.`review`
         WHERE `index` = #{index} AND `deleted_at` IS NULL
+    </select>
+
+    <select id="selectReviewsByItemId" resultType="com.bhs.sssss.entities.ReviewEntity">
+        SELECT *
+        FROM `kurly`.`review`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount};
+    </select>
+
+    <select id="countReviewsByItemId" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`review`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL;
     </select>
 </mapper>

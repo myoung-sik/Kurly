@@ -88,8 +88,8 @@ public class ReviewService {
         return Pair.of(pageVo, reviews);
     }
 
-    public int getTotalReviewCount() {
-        return this.reviewMapper.countReviews();
+    public int getTotalReviewCount(String itemId) {
+        return this.reviewMapper.countReviewsByItemId(itemId);
     }
 
     public CommonResult modifyReview(ReviewEntity review, MultipartFile image) throws IOException {
@@ -133,5 +133,19 @@ public class ReviewService {
 
     public ReviewEntity getReviewByIndex(int index) {
         return reviewMapper.selectReviewByIndex(index);
+    }
+
+    public Pair<PageVo, List<ReviewEntity>> getReviewsByItemId(String itemId, int page) {
+        page = Math.max(1, page);
+        // 전체 리뷰 수 조회
+        int totalReviews = reviewMapper.countReviewsByItemId(itemId);
+
+        // 페이지 정보 생성
+        PageVo pageVo = new PageVo(page, totalReviews);
+
+        // 페이징된 리뷰 목록 조회
+        List<ReviewEntity> reviews = this.reviewMapper.selectReviewsByItemId(itemId, pageVo.countPerPage, pageVo.offsetCount);
+
+        return Pair.of(pageVo, reviews);
     }
 }

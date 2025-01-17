@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const $imageInput = document.getElementById('imageInput');
     const $imageButton = document.getElementById('imageButton');
 
+    // URL에서 itemId 추출 (예: ?itemId=123 형태로 전달된 경우)
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('itemId');
+
     $imageButton.addEventListener("click", () => {
         $imageInput.click();
     });
@@ -20,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($imageInput.files.length > 0) {
             formData.append('image', $imageInput.files[0]);
         }
+        formData.append('itemId', itemId)
 
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
@@ -29,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (response.result === 'success') {
                         $result.innerText = '후기를 성공적으로 작성하였습니다.';
                         $result.style.color = 'green';
-                        window.location.href = '/goods/detail?page=1';
+                        // 작성 성공 시 상품 상세 페이지로 리다이렉트
+                        window.location.href = `/goods/detail?page=1&itemId=${itemId}`;
                     } else {
                         $result.innerText = '후기 작성에 실패하였습니다.';
                         $result.style.color = 'red';
@@ -39,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         };
-        xhr.open('POST', location.href);
+        xhr.open('POST', '/goods/review'); // 요청 URL에 itemId 포함
         xhr.send(formData);
 
         $title.value = '';

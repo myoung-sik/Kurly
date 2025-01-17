@@ -35,8 +35,22 @@
     </update>
 
     <delete id="deleteInquiry" parameterType="_int">
-        DELETE FROM `test`.`inquiry`
+        DELETE FROM `kurly`.`inquiry`
         WHERE `index` = #{inquiryId}
     </delete>
+
+    <select id="selectInquiriesByItemId" resultType="com.bhs.sssss.entities.InquiryEntity">
+        SELECT *
+        FROM `kurly`.`inquiry`
+        WHERE `item_id` = #{itemId}  <!-- 상품 ID 기준으로 필터링 -->
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="countInquiriesByItemId" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`inquiry`
+        WHERE `item_id` = #{itemId}  <!-- 상품 ID 기준으로 필터링 -->
+    </select>
 
 </mapper>

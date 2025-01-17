@@ -40,6 +40,9 @@ public class GoodsController {
     @ResponseBody
     public ResponseEntity<byte[]> getImage(@RequestParam(value = "index", required = false, defaultValue = "0") int index) {
         ImageEntity image = this.reviewService.getImage(index);
+
+        System.out.println(image);
+
         if (image == null) {
             return ResponseEntity.notFound().build();
         }
@@ -76,18 +79,26 @@ public class GoodsController {
         Pair<PageVo, List<InquiryEntity>> pairInquiries = this.inquiryService.getInquiriesByPage(inquiryPage);
         Pair<PageVo, List<ReviewEntity>> pairReviews = this.reviewService.getReviewsByPage(reviewPage);
 
+        if (itemId != null) {
+            // 특정 상품에 대한 문의와 리뷰 가져오기
+            pairInquiries = this.inquiryService.getInquiriesByItemId(itemId, inquiryPage);
+            pairReviews = this.reviewService.getReviewsByItemId(itemId, reviewPage);
+            System.out.println(pairReviews.getRight().get(0).getImageIndex());
+
+        }
         // 총 리뷰 개수 가져오기
-        int totalReviews = this.reviewService.getTotalReviewCount();
+        int totalReviews = this.reviewService.getTotalReviewCount(itemId);
 
         // 리뷰 이미지 처리
         for (ReviewEntity review : pairReviews.getRight()) {
+            System.out.println(review.getImageIndex());
             if (review.getImageIndex() != null) {
                 ImageEntity image = this.reviewService.getImage(review.getImageIndex());
                 review.setImages(List.of(image));
             }
         }
 
-        // productId가 전달된 경우 해당 상품 정보 가져오기
+        // itemId가 전달된 경우 해당 상품 정보 가져오기
         ItemEntity item = null;
         if (itemId != null) {
             item = this.itemService.getItemByItemId(itemId);
@@ -101,7 +112,7 @@ public class GoodsController {
         modelAndView.addObject("totalReviews", totalReviews);
         modelAndView.addObject("member", member);
 
-        // 상품 정보를 모델에 추가 (productId가 있을 때만)
+        // 상품 정보를 모델에 추가 (itemId가 있을 때만)
         if (item != null) {
             modelAndView.addObject("item", item);
         }
@@ -124,7 +135,8 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/review", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getReview(@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+    public ModelAndView getReview(@RequestParam(value = "itemId") String itemId,
+                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         Pair<PageVo, List<ReviewEntity>> pair = this.reviewService.getReviewsByPage(page);
         List<ReviewEntity> reviews = pair.getRight();
 
@@ -138,6 +150,7 @@ public class GoodsController {
         ModelAndView modelAndView = new ModelAndView("write/review");
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("reviews", reviews);
+        modelAndView.addObject("itemId", itemId);
         return modelAndView;
     }
 
@@ -145,11 +158,13 @@ public class GoodsController {
     @ResponseBody
     public String postReview(@RequestParam(value = "title") String title,
                              @RequestParam(value = "content") String content,
+                             @RequestParam(value = "itemId") String itemId,
                              @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
         ReviewEntity review = new ReviewEntity();
         review.setWriter("작성자");
         review.setTitle(title);
         review.setContent(content);
+        review.setItemId(itemId);
 
         JSONObject response = new JSONObject();
         Result result = this.reviewService.write(review, imageFile);
@@ -160,9 +175,10 @@ public class GoodsController {
     // 리뷰 수정 처리
     @RequestMapping(value = "/modify", method = RequestMethod.PATCH)
     @ResponseBody
-    public String modifyReview(@RequestParam("index") int index,
-                               @RequestParam("title") String title,
-                               @RequestParam("content") String content,
+    public String modifyReview(@RequestParam(value = "index", required = false) int index,
+                               @RequestParam(value = "title", required = false) String title,
+                               @RequestParam(value = "content", required = false) String content,
+                               @RequestParam(value = "itemId", required = false) String itemId,
                                @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
         ReviewEntity review = new ReviewEntity();
         review.setIndex(index);
@@ -176,7 +192,8 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getModify(@RequestParam(value = "index", required = false, defaultValue = "0") int index) {
+    public ModelAndView getModify(@RequestParam(value = "index", required = false, defaultValue = "0") int index,
+                                  @RequestParam(value = "itemId", required = false) String itemId) {
         ModelAndView modelAndView = new ModelAndView();
 
         // index에 해당하는 리뷰를 가져옵니다.
@@ -186,8 +203,6 @@ public class GoodsController {
         if (review != null && review.getDeletedAt() == null) {
             modelAndView.addObject("review", review); // 리뷰 객체를 HTML로 전달
             modelAndView.setViewName("goods/modify"); // "goods/modify.html"로 이동
-        } else {
-            modelAndView.setViewName("redirect:/goods/index");
         }
         // 기본 뷰 페이지 설정
         return modelAndView;

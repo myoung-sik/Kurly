@@ -15,7 +15,7 @@ public class PageVo {
         this.requestPage = requestPage;
         this.totalCount = totalCount;
         this.movableMaxPage = totalCount / this.countPerPage + (totalCount % this.countPerPage == 0 ? 0 : 1);
-        this.displayMinPage = ((requestPage - 1) / 10) * 10 + 1;
+        this.displayMinPage = ((requestPage - 1) / 9) * 5 + 1;
         this.displayMaxPage = Math.min(this.displayMinPage + 9, this.movableMaxPage);
         this.offsetCount = (requestPage - 1) * this.countPerPage;
     }

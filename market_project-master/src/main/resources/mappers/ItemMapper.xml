@@ -228,6 +228,13 @@
         FROM `kurly`.`items`
     </select>
 
+    <select id="getItemByItemId" parameterType="String" resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT *
+        FROM `kurly`.`items`
+        WHERE `item_id` = #{itemId}
+        LIMIT 1
+    </select>
+
     <!-- 상품 정보 수정 -->
     <update id="updateItem" parameterType="com.bhs.sssss.entities.ItemEntity">
         UPDATE `kurly`.`items`

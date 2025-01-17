@@ -15,6 +15,7 @@ public class InquiryEntity {
     private String title; // 제목
     private String content; // 내용
     private String status; // 답변상태
+    private String itemId;
     private LocalDateTime createdAt; // 생성일
     private LocalDateTime updatedAt; // 수정일
     private LocalDateTime deletedAt; // 삭제일
