@@ -53,7 +53,7 @@
                             <span class="price-span" th:text="${item.getPrice()}"></span>
                     </span>
             <a class="first-sale"
-               href="https://www.kurly.com/shop/event/kurlyEventV2.php?lego=event/2023/0911/join/coupon">
+               th:href="@{'/market-benefit'}">
                 <div class="sale-div">
                     <p class="sale-p">
                         첫 구매라면
