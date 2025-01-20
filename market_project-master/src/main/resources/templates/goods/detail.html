@@ -92,7 +92,7 @@
                 <li class="goods-li">
                     <dt class="goods-dt">포장타입</dt>
                     <dd class="goods-dd">
-                        <p class="goods-p1" th:text="${item.packaging}"></p>
+                        <p class="goods-p1" id="packaging" th:text="${item.packaging}"></p>
                         <p class="goods-p2">택배배송은 에코 포장이 스티로폼으로 대체됩니다.
                     </dd>
                 </li>
@@ -116,6 +116,7 @@
                                         <span class="select-span2" th:data-price="${item.price}" th:text="${item.price}"></span>
                                         <span class="select-span3" id="dcPrice" th:data-dcprice="${item.salesPrice}" th:text="${item.salesPrice}">5,990</span>
                                         <span class="select-span4">원</span>
+                                        <input type="hidden" id="itemId" th:value="${item.getItemId()}">
                                     </div>
                                 </div>
                             </div>
