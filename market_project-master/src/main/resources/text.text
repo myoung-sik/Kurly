@@ -1,7 +1,39 @@
-detail.html,
-detail.js,
-GoodsController.java,
-inquiry.js,
+detail.html
+1. div class="page-button-div1 review-navigation"안에 a태그 아래와 같이 수정
+<a class="page-button1 review-prev-button"
+   th:classappend="${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? 'disabled' : ''}"
+   th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+    <div class="page-button-div2">이전</div>
+</a>
+<a class="page-button2 review-next-button"
+   th:classappend="${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? 'disabled' : ''}"
+   th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+    <div class="page-button-div2">다음</div>
+</a>
+
+2. div class="page-button-div3"안에 a태그 아래와 같이 수정
+<a class="goods-inquiry-span1" th:href="@{'/goods/review?itemId=' + ${item.getItemId()}}">후기쓰기</a>
+
+3. div class="goods-inquiry-div3"안에 a태그 아래와 같이 수정
+<a class="goods-inquiry-span1" th:href="@{'/goods/inquiry?itemId=' + ${item.getItemId()}}">문의하기</a>
+
+4. div class="page-button-div1 inquiry-navigation"안에 a태그 아래와 같이 수정
+<a class="page-button1 inquiry-prev-button"
+   th:classappend="${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? 'disabled' : ''}"
+   th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+    <div class="page-button-div2">이전</div>
+</a>
+<a class="page-button2 inquiry-next-button"
+   th:classappend="${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? 'disabled' : ''}"
+   th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+    <div class="page-button-div2">다음</div>
+</a>
+
+GoodsController.java
+inquiry.js
+경로 index에서 detail로 수정
+window.location.href = `/goods/detail?page=1&itemId=${itemId}`;,
+if (response['result'] === 'success')문 바로 밖에 else문 삭제
 InquiryMapper.java,
 InquiryMapper.xml,
 InquiryService.java,
