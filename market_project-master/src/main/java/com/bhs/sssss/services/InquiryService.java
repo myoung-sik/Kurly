@@ -29,10 +29,6 @@ public class InquiryService {
         return this.inquiryMapper.insertInquiry(inquiry) > 0 ? WriteResult.SUCCESS : WriteResult.FAILURE;
     }
 
-    public List<InquiryEntity> getAllInquiries() {
-        return this.inquiryMapper.selectAllInquiries();
-    }
-
     public Pair<PageVo, List<InquiryEntity>> getInquiriesByPage(int page) {
         int totalCount = this.inquiryMapper.countInquiries();
         PageVo pageVo = new PageVo(page, totalCount);
@@ -43,12 +39,13 @@ public class InquiryService {
         return Pair.of(pageVo, inquiries);
     }
 
-    public Pair<PageVo, List<InquiryEntity>> getInquiriesByItemId(String itemId, int inquiryPage) {
+    public Pair<PageVo, List<InquiryEntity>> getInquiriesByItemId(String itemId, int page) {
+        page = Math.max(1, page);
         // 전체 문의 수 조회
         int totalInquiries = inquiryMapper.countInquiriesByItemId(itemId);
 
         // 페이지 정보 생성
-        PageVo pageVo = new PageVo(inquiryPage, totalInquiries);
+        PageVo pageVo = new PageVo(page, totalInquiries);
 
         // 페이징된 문의 목록 조회
         List<InquiryEntity> inquiries = inquiryMapper.selectInquiriesByItemId(itemId, pageVo.countPerPage, pageVo.offsetCount);

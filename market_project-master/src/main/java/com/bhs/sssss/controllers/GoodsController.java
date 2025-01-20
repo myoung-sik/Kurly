@@ -83,19 +83,19 @@ public class GoodsController {
             // 특정 상품에 대한 문의와 리뷰 가져오기
             pairInquiries = this.inquiryService.getInquiriesByItemId(itemId, inquiryPage);
             pairReviews = this.reviewService.getReviewsByItemId(itemId, reviewPage);
-            System.out.println(pairReviews.getRight().get(0).getImageIndex());
-
         }
+
         // 총 리뷰 개수 가져오기
         int totalReviews = this.reviewService.getTotalReviewCount(itemId);
 
         // 리뷰 이미지 처리
         for (ReviewEntity review : pairReviews.getRight()) {
-            System.out.println(review.getImageIndex());
             if (review.getImageIndex() != null) {
+                System.out.println(review.getImageIndex());
                 ImageEntity image = this.reviewService.getImage(review.getImageIndex());
                 review.setImages(List.of(image));
             }
+            System.out.println(review.getImageIndex());
         }
 
         // itemId가 전달된 경우 해당 상품 정보 가져오기

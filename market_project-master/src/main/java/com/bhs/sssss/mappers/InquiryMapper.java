@@ -18,5 +18,5 @@ public interface InquiryMapper {
 
     int countInquiriesByItemId(String itemId);
 
-    List<InquiryEntity> selectInquiriesByItemId(@Param("itemId") String itemId, @Param("offsetCount") int offsetCount, @Param("limitCount") int limitCount);
+    List<InquiryEntity> selectInquiriesByItemId(@Param("itemId") String itemId, @Param("limitCount") int limitCount, @Param("offsetCount") int offsetCount);
 }

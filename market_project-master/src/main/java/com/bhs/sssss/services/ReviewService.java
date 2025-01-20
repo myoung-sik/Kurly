@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -52,10 +53,6 @@ public class ReviewService {
         review.setCreatedAt(LocalDateTime.now());
         int insertResult = this.reviewMapper.insertReview(review);
         return insertResult > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
-    }
-
-    public List<ReviewEntity> getAllReviews() {
-        return this.reviewMapper.selectAllReviews();
     }
 
     public ImageEntity getImage(int index) {
@@ -110,7 +107,10 @@ public class ReviewService {
             newImage.setData(image.getBytes());
             newImage.setContentType(image.getContentType());
             newImage.setName(image.getOriginalFilename());
-            imageMapper.insertImage(newImage);
+            if(imageMapper.insertImage(newImage) == 0){
+                return CommonResult.FAILURE;
+            }
+
             dbReview.setImageIndex(newImage.getIndex());
         }
 

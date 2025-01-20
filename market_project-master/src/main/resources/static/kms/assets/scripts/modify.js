@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const response = JSON.parse(xhr.responseText);
                     if (response.result === 'success') {
                         alert('수정이 완료되었습니다.');
-                        window.location.href = `/goods/index?itemId=${itemId}`;
+                        window.location.href = `/goods/detail?page=1&itemId=${itemId}`;
                     } else {
                         alert('수정에 실패했습니다.');
                     }

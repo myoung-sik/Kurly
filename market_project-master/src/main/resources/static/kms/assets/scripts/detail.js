@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 초기값 설정
     const dcPrice = parseInt(priceSpan.dataset.dcprice.replace(/,/g, ''), 10); // 쉼표 제거 후 숫자로 변환
     let quantity = 1;
-    console.log(`dcPrice:${dcPrice}`);
 
 // 초기 총 상품 금액 설정
     totalPriceSpan.textContent = (dcPrice * quantity).toLocaleString();

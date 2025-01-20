@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($imageInput.files.length > 0) {
             formData.append('image', $imageInput.files[0]);
         }
-        formData.append('itemId', itemId)
+        formData.append('itemId', itemId);
 
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {

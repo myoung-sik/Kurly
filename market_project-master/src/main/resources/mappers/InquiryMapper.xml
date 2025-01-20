@@ -4,8 +4,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bhs.sssss.mappers.InquiryMapper">
     <insert id="insertInquiry" parameterType="com.bhs.sssss.entities.InquiryEntity">
-        INSERT INTO `kurly`.`inquiry` (`writer`, `title`, `content`, `status`, `created_at`, `updated_at`, `deleted_at`)
-        VALUES (#{writer}, #{title}, #{content}, #{status}, #{createdAt}, #{updatedAt}, #{deletedAt})
+        INSERT INTO `kurly`.`inquiry` (`writer`, `title`, `content`, `status`, `created_at`, `updated_at`, `deleted_at`,`item_id`)
+        VALUES (#{writer}, #{title}, #{content}, #{status}, #{createdAt}, #{updatedAt}, #{deletedAt}, #{itemId})
     </insert>
 
     <select id="selectAllInquiries" resultType="com.bhs.sssss.entities.InquiryEntity">

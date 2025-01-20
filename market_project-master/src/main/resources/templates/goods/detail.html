@@ -741,12 +741,12 @@
                     <div class="page-button-div1 review-navigation">
                         <a class="page-button1 review-prev-button"
                            th:classappend="${reviewPageVo.movableMinPage >= reviewPageVo.requestPage ? 'disabled' : ''}"
-                           th:href="@{/goods/index(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+                           th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                             <div class="page-button-div2">이전</div>
                         </a>
                         <a class="page-button2 review-next-button"
                            th:classappend="${reviewPageVo.movableMaxPage <= reviewPageVo.requestPage ? 'disabled' : ''}"
-                           th:href="@{/goods/index(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
+                           th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                             <div class="page-button-div2">다음</div>
                         </a>
                         <div class="page-button-div3">
@@ -762,7 +762,7 @@
             <div class="goods-inquiry-div2">
                 <div class="goods-inquiry-div3">
                     <button class="goods-inquiry-button">
-                        <a class="goods-inquiry-span1" th:href="@{'/goods/inquiry'}">문의하기</a>
+                        <a class="goods-inquiry-span1" th:href="@{'/goods/inquiry?itemId=' + ${item.getItemId()}}">문의하기</a>
                     </button>
                 </div>
                 <div class="goods-inquiry-div4">
@@ -809,12 +809,12 @@
                 <div class="page-button-div1 inquiry-navigation">
                     <a class="page-button1 inquiry-prev-button"
                        th:classappend="${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? 'disabled' : ''}"
-                       th:href="@{${inquiryPageVo.movableMinPage >= inquiryPageVo.requestPage ? '' : '/goods/index?inquiryPage=' + (inquiryPageVo.requestPage - 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                       th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage - 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                         <div class="page-button-div2">이전</div>
                     </a>
                     <a class="page-button2 inquiry-next-button"
                        th:classappend="${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? 'disabled' : ''}"
-                       th:href="@{${inquiryPageVo.movableMaxPage <= inquiryPageVo.requestPage ? '' : '/goods/index?inquiryPage=' + (inquiryPageVo.requestPage + 1) + '&reviewPage=' + reviewPageVo.requestPage}}">
+                       th:href="@{/goods/detail(reviewPage=${reviewPageVo.requestPage + 1}, inquiryPage=${inquiryPageVo.requestPage}, itemId=${item.itemId})}">
                         <div class="page-button-div2">다음</div>
                     </a>
                 </div>
